@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>585GOLD Обучение</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#E30613">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#f5f5f5;min-height:100vh;padding:16px}
+        .container{max-width:600px;margin:0 auto}
+        
+        .header{background:linear-gradient(135deg,#E30613,#c41c2a);color:#fff;padding:20px;border-radius:16px;margin-bottom:16px;box-shadow:0 4px 12px rgba(196,30,58,.3)}
+        .header h1{font-size:22px;font-weight:700;margin-bottom:4px}
+        .header p{font-size:13px;opacity:.9}
+        
+        .today-card{background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;border-left:4px solid #E30613;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+        .today-label{font-size:11px;color:#666;text-transform:uppercase;font-weight:600;margin-bottom:8px}
+        .today-date{font-size:18px;font-weight:700;color:#E30613;margin-bottom:4px}
+        .today-week{font-size:13px;color:#666;margin-bottom:12px}
+        .today-material{background:#fff5f5;padding:12px;border-radius:8px;font-size:14px;font-weight:500;color:#333}
+        
+        .week-section{background:#fff;border-radius:12px;padding:16px;margin-bottom:12px}
+        .week-title{font-size:14px;font-weight:700;color:#E30613;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #E30613}
+        .day-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #eee}
+        .day-item:last-child{border-bottom:none}
+        .day-item.done{opacity:.5}
+        .day-info{flex:1}
+        .day-name{font-size:13px;font-weight:600;color:#333}
+        .day-topic{font-size:11px;color:#666;margin-top:2px}
+        .day-check{width:24px;height:24px;border:2px solid #E30613;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+        .day-check.checked{background:#E30613}
+        .day-check.checked::after{content:'✓';color:#fff;font-size:14px;font-weight:700}
+        
+        .btn{background:linear-gradient(135deg,#E30613,#c41c2a);color:#fff;border:none;padding:14px 24px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;width:100%;margin-top:12px}
+        .btn:active{transform:scale(.98)}
+        
+        .progress-bar{background:#e5e7eb;border-radius:8px;height:8px;margin:16px 0;overflow:hidden}
+        .progress-fill{background:linear-gradient(135deg,#E30613,#c41c2a);height:100%;border-radius:8px;transition:width .5s}
+        .progress-text{font-size:12px;color:#666;text-align:center;margin-top:4px}
+        
+        .install-hint{background:#fff9e6;border:1px solid #f59e0b;border-radius:12px;padding:14px;margin-top:16px;font-size:12px;color:#92400e}
+        .install-hint strong{display:block;margin-bottom:6px;font-size:13px}
+        
+        .hidden{display:none}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💎 585GOLD Обучение</h1>
+            <p>План отправки материалов в розницу</p>
+        </div>
+        
+        <div id="installHint" class="install-hint hidden">
+            <strong>📲 Добавьте на главный экран</strong>
+            Android: Меню (⋮) → «Добавить на главный экран»<br>
+            iPhone: Поделиться → «На экран "Домой"»
+        </div>
+        
+        <div class="today-card">
+            <div class="today-label">📤 ОТПРАВИТЬ СЕГОДНЯ</div>
+            <div class="today-date" id="todayDate"></div>
+            <div class="today-week" id="todayWeek"></div>
+            <div class="today-material" id="todayMaterial"></div>
+            <button class="btn" id="markDone" onclick="markTodayDone()">✅ Отметить как отправлено</button>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width:0%"></div>
+        </div>
+        <div class="progress-text" id="progressText">0/20 дней пройдено</div>
+        
+        <div id="weeksContainer"></div>
+        
+        <button class="btn" onclick="resetProgress()" style="background:#6b7280;margin-top:20px">🔄 Сбросить прогресс</button>
+    </div>
+    
+    <script>
+        // ========== ПЛАН ОБУЧЕНИЯ (20 дней) ==========
+        const PLAN = [
+            {week:1,day:'Пн',topic:'Входной тест + Стандарты обслуживания',file:'standarty.html'},
+            {week:1,day:'Вт',topic:'Речевая пластинка с акциями',file:'rechevaya_plastinka.html'},
+            {week:1,day:'Ср',topic:'Сервис с человеческим лицом',file:'servis.html'},
+            {week:1,day:'Чт',topic:'«Можно» vs «Давайте»',file:'mozhno_vs_davaite.html'},
+            {week:1,day:'Пт',topic:'Конверсия: 6 правил',file:'konversiya.html'},
+            {week:2,day:'Пн',topic:'Путь к успешной продаже (5 шагов)',file:'put_k_prodazhe.html'},
+            {week:2,day:'Вт',topic:'Презентация украшений (ХПВ)',file:'prezentaciya.html'},
+            {week:2,day:'Ср',topic:'Тренажёр: Диалоги',file:'dialog_trainer.html'},
+            {week:2,day:'Чт',topic:'Инициатива в диалоге',file:'iniciativa.html'},
+            {week:2,day:'Пт',topic:'Игра: Найди ошибку',file:'error_finder.html'},
+            {week:3,day:'Пн',topic:'Тренажёр: Типы клиентов',file:'client_type_trainer.html'},
+            {week:3,day:'Вт',topic:'Второе украшение (10 ситуаций)',file:'vtoroe_ukrashenie.html'},
+            {week:3,day:'Ср',topic:'Тренажёр: Допродажи',file:'crosssell_trainer.html'},
+            {week:3,day:'Чт',topic:'Электронный каталог + Альтернатива',file:'katalog.html'},
+            {week:3,day:'Пт',topic:'Переориентация на золото',file:'zoloto.html'},
+            {week:4,day:'Пн',topic:'Работа с «Дорого»',file:'dorogo.html'},
+            {week:4,day:'Вт',topic:'10 инструментов увеличения продаж',file:'instrumenty.html'},
+            {week:4,day:'Ср',topic:'Лайфхаки (5 быстрых побед)',file:'lajfhaki.html'},
+            {week:4,day:'Чт',topic:'Финишная прямая',file:'finish.html'},
+            {week:4,day:'Пт',topic:'Итоговая аттестация',file:'final_exam.html'}
+        ];
+        
+        // ========== СОСТОЯНИЕ ==========
+        let completedDays = JSON.parse(localStorage.getItem('completedDays') || '[]');
+        
+        // ========== ОТРИСОВКА ==========
+        function render() {
+            const today = new Date();
+            const dayNum = today.getDate();
+            const month = today.getMonth();
+            const year = today.getFullYear();
+            
+            // Определяем текущий день обучения (упрощённо: с начала месяца)
+            const currentDayIndex = Math.min(dayNum - 1, 19);
+            const currentPlan = PLAN[currentDayIndex] || PLAN[PLAN.length - 1];
+            
+            // Сегодняшняя карточка
+            document.getElementById('todayDate').textContent = 
+                today.toLocaleDateString('ru-RU', {weekday:'long',day:'numeric',month:'long'});
+            document.getElementById('todayWeek').textContent = `Неделя ${currentPlan.week}`;
+            document.getElementById('todayMaterial').textContent = currentPlan.topic;
+            
+            // Прогресс
+            const progress = (completedDays.length / PLAN.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = 
+                `${completedDays.length}/${PLAN.length} дней пройдено`;
+            
+            // Недели
+            const weeksContainer = document.getElementById('weeksContainer');
+            weeksContainer.innerHTML = '';
+            
+            for(let w=1; w<=4; w++) {
+                const weekDays = PLAN.filter(p => p.week === w);
+                const weekEl = document.createElement('div');
+                weekEl.className = 'week-section';
+                weekEl.innerHTML = `<div class="week-title">Неделя ${w}</div>` + 
+                    weekDays.map((day, idx) => {
+                        const globalIdx = PLAN.indexOf(day);
+                        const isDone = completedDays.includes(globalIdx);
+                        return `
+                            <div class="day-item ${isDone ? 'done' : ''}">
+                                <div class="day-info">
+                                    <div class="day-name">${day.day} • ${day.topic}</div>
+                                </div>
+                                <div class="day-check ${isDone ? 'checked' : ''}" 
+                                     onclick="toggleDay(${globalIdx})"></div>
+                            </div>
+                        `;
+                    }).join('');
+                weeksContainer.appendChild(weekEl);
+            }
+            
+            // Проверка установки PWA
+            if(window.matchMedia('(display-mode: standalone)').matches) {
+                document.getElementById('installHint').classList.add('hidden');
+            } else {
+                document.getElementById('installHint').classList.remove('hidden');
+            }
+        }
+        
+        // ========== ДЕЙСТВИЯ ==========
+        function toggleDay(idx) {
+            if(completedDays.includes(idx)) {
+                completedDays = completedDays.filter(i => i !== idx);
+            } else {
+                completedDays.push(idx);
+            }
+            localStorage.setItem('completedDays', JSON.stringify(completedDays));
+            render();
+        }
+        
+        function markTodayDone() {
+            const today = new Date();
+            const currentDayIndex = Math.min(today.getDate() - 1, 19);
+            if(!completedDays.includes(currentDayIndex)) {
+                completedDays.push(currentDayIndex);
+                localStorage.setItem('completedDays', JSON.stringify(completedDays));
+                render();
+                alert('✅ Отмечено! Так держать!');
+            } else {
+                alert('Уже отмечено! 🎉');
+            }
+        }
+        
+        function resetProgress() {
+            if(confirm('Сбросить весь прогресс?')) {
+                completedDays = [];
+                localStorage.setItem('completedDays', JSON.stringify(completedDays));
+                render();
+            }
+        }
+        
+        // ========== УВЕДОМЛЕНИЯ ==========
+        function requestNotificationPermission() {
+            if('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+        }
+        
+        // ========== ЗАПУСК ==========
+        render();
+        requestNotificationPermission();
+        
+        // Регистрация service worker
+        if('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js');
+        }
+    </script>
+</body>
+</html>
