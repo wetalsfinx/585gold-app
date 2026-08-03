@@ -30,6 +30,7 @@
         .btn-success{background:#10b981;color:#fff}
         .btn-success:disabled{background:#6b7280;cursor:not-allowed}
         .btn-secondary{background:rgba(255,255,255,0.2);color:#fff}
+        .btn-link{background:#fff;color:#E30613;text-decoration:none}
         
         .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
         .stat-card{background:#fff;border-radius:16px;padding:16px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
@@ -41,7 +42,7 @@
         .progress-label{font-size:13px;font-weight:600;color:#333}
         .progress-percent{font-size:13px;font-weight:700;color:#E30613}
         .progress-bar{background:#e5e7eb;border-radius:12px;height:12px;overflow:hidden}
-        .progress-fill{background:linear-gradient(90deg,#E30613,#c41c2a);height:100%;border-radius:12px;transition:width 0.8s ease}
+        .progress-fill{background:linear-gradient(90deg,#10b981,#059669);height:100%;border-radius:12px;transition:width 0.8s ease}
         
         .schedule-section{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
         .schedule-title{font-size:16px;font-weight:700;color:#E30613;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #E30613}
@@ -56,7 +57,7 @@
         .schedule-week{font-size:11px;color:#666;font-weight:600}
         .schedule-topic{font-size:13px;font-weight:600;color:#333;margin-top:2px}
         .schedule-check{width:24px;height:24px;border:2px solid #E30613;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer}
-        .schedule-check.checked{background:#E30613}
+        .schedule-check.checked{background:#10b981}
         .schedule-check.checked::after{content:'✓';color:#fff;font-size:14px;font-weight:700}
         
         @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(227,6,19,0.4)}70%{box-shadow:0 0 0 10px rgba(227,6,19,0)}100%{box-shadow:0 0 0 0 rgba(227,6,19,0)}}
@@ -109,31 +110,31 @@
     </div>
     
     <script>
-        // ========== ДАТА СТАРТА (МЕНЯТЬ ТОЛЬКО ЗДЕСЬ) ==========
-        const START_DATE = new Date('2026-08-03'); // Понедельник, День 1
+        // ========== ДАТА СТАРТА ==========
+        const START_DATE = new Date('2026-08-03');
         
         // ========== ПЛАН ОБУЧЕНИЯ (20 рабочих дней) ==========
         const PLAN = [
-            {week:1,day:'Пн',topic:'Стандарты обслуживания (12 этапов)',file:'Станларты обслуживания.html'},
-            {week:1,day:'Вт',topic:'Речевая пластинка с акциями',file:'Речевая пластинка.html'},
-            {week:1,day:'Ср',topic:'Сервис с человеческим лицом',file:'Сервис.html'},
-            {week:1,day:'Чт',topic:'«Можно» vs «Давайте»',file:'Можно vs Давайте.html'},
-            {week:1,day:'Пт',topic:'Конверсия: 6 правил',file:'Конверсия.html'},
-            {week:2,day:'Пн',topic:'Путь к успешной продаже (5 шагов)',file:'Путь к успешной продаже.html'},
-            {week:2,day:'Вт',topic:'Презентация украшений (ХПВ)',file:'Презентация.html'},
-            {week:2,day:'Ср',topic:'Тренажёр: Диалоги',file:'dialog_trainer.html'},
-            {week:2,day:'Чт',topic:'Инициатива в диалоге',file:'Инициатива.html'},
-            {week:2,day:'Пт',topic:'Игра: Найди ошибку',file:'error_finder.html'},
-            {week:3,day:'Пн',topic:'Тренажёр: Типы клиентов',file:'client_type_trainer.html'},
-            {week:3,day:'Вт',topic:'Второе украшение (10 ситуаций)',file:'Предложение второго украшения.html'},
-            {week:3,day:'Ср',topic:'Тренажёр: Допродажи',file:'crosssell_trainer.html'},
-            {week:3,day:'Чт',topic:'Каталог + Альтернатива',file:'Электронный каталог.html'},
-            {week:3,day:'Пт',topic:'Переориентация на золото',file:'Продажа золота.html'},
-            {week:4,day:'Пн',topic:'Работа с «Дорого»',file:'Дорого.html'},
-            {week:4,day:'Вт',topic:'10 инструментов увеличения продаж',file:'Увеличение продаж.html'},
-            {week:4,day:'Ср',topic:'Лайфхаки (5 быстрых побед)',file:'Увеличение продаж. Лайфках.html'},
-            {week:4,day:'Чт',topic:'Финишная прямая',file:'Финишная прямая.html'},
-            {week:4,day:'Пт',topic:'Итоговая аттестация',file:'final_exam.html'}
+            {week:1,day:'Пн',topic:'Входной тест + Стандарты обслуживания',file:'test_new.html',link:'https://wetalsfinx.github.io/Test/test_new.html'},
+            {week:1,day:'Вт',topic:'Речевая пластинка с акциями',file:'Речевая пластинка.html',link:'Речевая пластинка.html'},
+            {week:1,day:'Ср',topic:'Сервис с человеческим лицом',file:'Сервис.html',link:'Сервис.html'},
+            {week:1,day:'Чт',topic:'«Можно» vs «Давайте»',file:'Можно vs Давайте.html',link:'Можно vs Давайте.html'},
+            {week:1,day:'Пт',topic:'Конверсия: 6 правил',file:'Конверсия.html',link:'Конверсия.html'},
+            {week:2,day:'Пн',topic:'Путь к успешной продаже (5 шагов)',file:'Путь к успешной продаже.html',link:'Путь к успешной продаже.html'},
+            {week:2,day:'Вт',topic:'Презентация украшений (ХПВ)',file:'Презентация.html',link:'Презентация.html'},
+            {week:2,day:'Ср',topic:'Тренажёр: Диалоги',file:'dialog_trainer.html',link:'https://wetalsfinx.github.io/Test/dialog_trainer.html'},
+            {week:2,day:'Чт',topic:'Инициатива в диалоге',file:'Инициатива.html',link:'Инициатива.html'},
+            {week:2,day:'Пт',topic:'Игра: Найди ошибку',file:'error_finder.html',link:'https://wetalsfinx.github.io/Test/error_finder.html'},
+            {week:3,day:'Пн',topic:'Тренажёр: Типы клиентов',file:'client_type_trainer.html',link:'https://wetalsfinx.github.io/Test/client_type_trainer.html'},
+            {week:3,day:'Вт',topic:'Второе украшение (10 ситуаций)',file:'Предложение второго украшения.html',link:'Предложение второго украшения.html'},
+            {week:3,day:'Ср',topic:'Тренажёр: Допродажи',file:'crosssell_trainer.html',link:'https://wetalsfinx.github.io/Test/crosssell_trainer.html'},
+            {week:3,day:'Чт',topic:'Каталог + Альтернатива',file:'Электронный каталог.html',link:'Электронный каталог.html'},
+            {week:3,day:'Пт',topic:'Переориентация на золото',file:'Продажа золота.html',link:'Продажа золота.html'},
+            {week:4,day:'Пн',topic:'Работа с «Дорого»',file:'Дорого.html',link:'Дорого.html'},
+            {week:4,day:'Вт',topic:'10 инструментов увеличения продаж',file:'Увеличение продаж.html',link:'Увеличение продаж.html'},
+            {week:4,day:'Ср',topic:'Лайфхаки (5 быстрых побед)',file:'Увеличение продаж. Лайфках.html',link:'Увеличение продаж. Лайфках.html'},
+            {week:4,day:'Чт',topic:'Финишная прямая',file:'Финишная прямая.html',link:'Финишная прямая.html'},
+            {week:4,day:'Пт',topic:'Итоговая аттестация',file:'final_exam.html',link:'https://wetalsfinx.github.io/Test/final_exam.html'}
         ];
         
         let completedDays = JSON.parse(localStorage.getItem('completedDays') || '[]');
@@ -161,7 +162,6 @@
             const today = new Date();
             const todayContainer = document.getElementById('todayContainer');
             
-            // Проверка на выходной
             if (isWeekend(today)) {
                 todayContainer.innerHTML = `
                     <div class="weekend-card">
@@ -169,7 +169,6 @@
                         <p>Отдыхайте! Следующая отправка в понедельник.</p>
                     </div>
                 `;
-                document.getElementById('markDone')?.remove();
             } else {
                 const businessDayCount = countBusinessDays(START_DATE, today);
                 const currentDayIndex = Math.min(Math.max(businessDayCount - 1, 0), PLAN.length - 1);
@@ -183,6 +182,7 @@
                         <div class="today-week">Неделя ${currentPlan.week} • День ${currentDayIndex + 1} из ${PLAN.length}</div>
                         <div class="today-topic">${currentPlan.topic}</div>
                         <div class="today-file">📄 ${currentPlan.file}</div>
+                        <a href="${currentPlan.link}" target="_blank" class="btn btn-link" style="width:100%;margin-bottom:10px">📖 Открыть материал</a>
                         <div class="today-actions">
                             <button class="btn btn-success" id="markDone" onclick="markTodayDone()" ${isDone ? 'disabled' : ''}>
                                 ${isDone ? '✅ Уже отправлено' : '✅ Отметить как отправлено'}
@@ -193,7 +193,6 @@
                 `;
             }
             
-            // Статистика
             const progress = (completedDays.length / PLAN.length) * 100;
             document.getElementById('progressFill').style.width = progress + '%';
             document.getElementById('progressPercent').textContent = `${completedDays.length}/${PLAN.length} дней`;
@@ -201,7 +200,6 @@
             document.getElementById('statRemaining').textContent = PLAN.length - completedDays.length;
             document.getElementById('statPercent').textContent = Math.round(progress) + '%';
             
-            // Расписание
             const scheduleContainer = document.getElementById('scheduleContainer');
             const businessDayCount = countBusinessDays(START_DATE, today);
             const currentDayIndex = isWeekend(today) ? businessDayCount - 2 : businessDayCount - 1;
@@ -263,7 +261,7 @@
                 return;
             }
             
-            alert(`📅 ЗАВТРА:\n\n${nextPlan.topic}\n\n📄 Файл: ${nextPlan.file}\n\nНеделя ${nextPlan.week}`);
+            alert(`📅 ЗАВТРА:\n\n${nextPlan.topic}\n\n Файл: ${nextPlan.file}\n\nНеделя ${nextPlan.week}`);
         }
         
         function resetProgress() {
