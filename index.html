@@ -10,11 +10,11 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:16px}
+        body{font-family:'Inter',sans-serif;background:#f5f5f5;min-height:100vh;padding:16px}
         .container{max-width:600px;margin:0 auto}
         
-        .header{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:20px;padding:20px;margin-bottom:16px;box-shadow:0 8px 32px rgba(0,0,0,0.1);text-align:center}
-        .header h1{font-size:24px;font-weight:800;background:linear-gradient(135deg,#E30613,#c41c2a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+        .header{background:#fff;border-radius:20px;padding:20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);text-align:center;border-top:4px solid #E30613}
+        .header h1{font-size:24px;font-weight:800;color:#E30613;margin-bottom:4px}
         .header p{font-size:13px;color:#666;font-weight:500}
         
         .today-hero{background:linear-gradient(135deg,#E30613,#c41c2a);border-radius:24px;padding:28px;margin-bottom:20px;box-shadow:0 12px 40px rgba(196,30,58,0.3);color:#fff;position:relative;overflow:hidden}
@@ -22,28 +22,30 @@
         .today-label{font-size:12px;text-transform:uppercase;font-weight:700;opacity:0.9;margin-bottom:8px;letter-spacing:1px}
         .today-date{font-size:20px;font-weight:800;margin-bottom:4px}
         .today-week{font-size:14px;opacity:0.9;margin-bottom:16px}
-        .today-material{background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);padding:16px;border-radius:16px;font-size:15px;font-weight:600;margin-bottom:16px;line-height:1.4}
+        .today-material{background:rgba(255,255,255,0.95);color:#333;padding:16px;border-radius:16px;font-size:15px;font-weight:600;margin-bottom:12px;line-height:1.4;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+        .today-file{background:rgba(255,255,255,0.2);padding:8px 12px;border-radius:8px;font-size:12px;margin-bottom:16px;font-family:monospace}
         .today-actions{display:flex;gap:10px}
-        .btn{flex:1;background:#fff;color:#E30613;border:none;padding:14px 20px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+        .btn{flex:1;background:#fff;color:#E30613;border:none;padding:14px 20px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-decoration:none;display:inline-block;text-align:center}
         .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.15)}
         .btn:active{transform:scale(0.98)}
         .btn-secondary{background:rgba(255,255,255,0.2);color:#fff}
         .btn-success{background:#10b981;color:#fff}
         .btn-success:disabled{background:#6b7280;cursor:not-allowed}
+        .btn-link{background:#fff;color:#E30613;text-decoration:none}
         
         .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
-        .stat-card{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:16px;padding:16px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+        .stat-card{background:#fff;border-radius:16px;padding:16px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
         .stat-value{font-size:28px;font-weight:800;color:#E30613;margin-bottom:4px}
         .stat-label{font-size:11px;color:#666;font-weight:600;text-transform:uppercase}
         
-        .progress-container{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+        .progress-container{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
         .progress-header{display:flex;justify-content:space-between;margin-bottom:12px}
         .progress-label{font-size:13px;font-weight:600;color:#333}
         .progress-percent{font-size:13px;font-weight:700;color:#E30613}
         .progress-bar{background:#e5e7eb;border-radius:12px;height:12px;overflow:hidden}
         .progress-fill{background:linear-gradient(90deg,#E30613,#c41c2a);height:100%;border-radius:12px;transition:width 0.8s ease}
         
-        .week-section{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:20px;padding:20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+        .week-section{background:#fff;border-radius:20px;padding:20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
         .week-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;cursor:pointer}
         .week-title{font-size:16px;font-weight:700;color:#E30613}
         .week-toggle{font-size:20px;color:#E30613;transition:transform 0.3s}
@@ -67,15 +69,8 @@
         .day-check.checked::after{content:'✓';color:#fff;font-size:16px;font-weight:700}
         
         .quote-box{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:16px;padding:16px;margin:20px 0;text-align:center;font-style:italic;font-size:13px;line-height:1.5;box-shadow:0 4px 16px rgba(245,158,11,0.3)}
-        .quote-box::before{content:'"';font-size:40px;opacity:0.3;display:block;line-height:1}
         
         .hidden{display:none}
-        
-        @media print{
-            body{background:#fff}
-            .header,.today-hero,.stats-grid,.progress-container,.week-section{box-shadow:none;border:1px solid #ddd}
-            .btn{display:none}
-        }
     </style>
 </head>
 <body>
@@ -86,10 +81,10 @@
         </div>
         
         <div class="today-hero">
-            <div class="today-label"> Отправить сегодня</div>
+            <div class="today-label"> ОТПРАВИТЬ СЕГОДНЯ</div>
             <div class="today-date" id="todayDate"></div>
             <div class="today-week" id="todayWeek"></div>
-            <div class="today-material" id="todayMaterial"></div>
+            <div id="todayContent"></div>
             <div class="today-actions">
                 <button class="btn btn-success" id="markDone" onclick="markTodayDone()">✅ Отправлено</button>
                 <button class="btn btn-secondary" onclick="showNextDay()">Что дальше? →</button>
@@ -131,12 +126,10 @@
     </div>
     
     <script>
-        // ========== ДАТА СТАРТА ==========
         const START_DATE = new Date('2026-08-03');
         
-        // ========== ПЛАН ОБУЧЕНИЯ ==========
         const PLAN = [
-            {week:1,day:'Пн',topic:'Стандарты обслуживания (12 этапов)',file:'Станларты обслуживания.html',icon:''},
+            {week:1,day:'Пн',topic:'Стандарты обслуживания (12 этапов)',file:'Станларты обслуживания.html',icon:'📋'},
             {week:1,day:'Вт',topic:'Речевая пластинка с акциями',file:'Речевая пластинка.html',icon:'💬'},
             {week:1,day:'Ср',topic:'Сервис с человеческим лицом',file:'Сервис.html',icon:'🤝'},
             {week:1,day:'Чт',topic:'«Можно» vs «Давайте»',file:'Можно vs Давайте.html',icon:''},
@@ -149,11 +142,11 @@
             {week:3,day:'Пн',topic:'Тренажёр: Типы клиентов',file:'client_type_trainer.html',icon:'🎭'},
             {week:3,day:'Вт',topic:'Второе украшение (10 ситуаций)',file:'Предложение второго украшения.html',icon:'💍'},
             {week:3,day:'Ср',topic:'Тренажёр: Допродажи',file:'crosssell_trainer.html',icon:'📈'},
-            {week:3,day:'Чт',topic:'Каталог + Альтернатива',file:'Электронный каталог.html',icon:'📱'},
+            {week:3,day:'Чт',topic:'Каталог + Альтернатива',file:'Электронный каталог.html',icon:''},
             {week:3,day:'Пт',topic:'Переориентация на золото',file:'Продажа золота.html',icon:'🥇'},
             {week:4,day:'Пн',topic:'Работа с «Дорого»',file:'Дорого.html',icon:'💰'},
             {week:4,day:'Вт',topic:'10 инструментов увеличения продаж',file:'Увеличение продаж.html',icon:'🚀'},
-            {week:4,day:'Ср',topic:'Лайфхаки (5 быстрых побед)',file:'Увеличение продаж. Лайфках.html',icon:'⚡'},
+            {week:4,day:'Ср',topic:'Лайфхаки (5 быстрых побед)',file:'Увеличение продаж. Лайфках.html',icon:''},
             {week:4,day:'Чт',topic:'Финишная прямая',file:'Финишная прямая.html',icon:'🏁'},
             {week:4,day:'Пт',topic:'Итоговая аттестация',file:'final_exam.html',icon:'🏆'}
         ];
@@ -189,21 +182,30 @@
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             document.getElementById('todayDate').textContent = today.toLocaleDateString('ru-RU', options);
             
-            const todayMaterial = document.getElementById('todayMaterial');
-            const todayWeek = document.getElementById('todayWeek');
+            const todayContent = document.getElementById('todayContent');
             const markBtn = document.getElementById('markDone');
             
             if (isWeekend(today)) {
-                todayWeek.textContent = '🎉 Выходной день';
-                todayMaterial.innerHTML = '<div style="text-align:center;padding:20px;font-size:16px">Отдыхайте! Заряжайтесь энергией для новых продаж! 💪</div>';
+                document.getElementById('todayWeek').textContent = '🎉 Выходной день';
+                todayContent.innerHTML = '<div class="today-material" style="text-align:center;padding:20px;font-size:16px;background:#d1fae5;color:#065f46">Отдыхайте! Заряжайтесь энергией для новых продаж! 💪</div>';
                 markBtn.style.display = 'none';
             } else {
                 const businessDayCount = countBusinessDays(START_DATE, today);
                 const currentDayIndex = Math.min(Math.max(businessDayCount - 1, 0), PLAN.length - 1);
                 const currentPlan = PLAN[currentDayIndex];
                 
-                todayWeek.textContent = `Неделя ${currentPlan.week} • День ${currentDayIndex + 1} из ${PLAN.length}`;
-                todayMaterial.innerHTML = `<div style="display:flex;align-items:center;gap:12px"><span style="font-size:32px">${currentPlan.icon}</span><div>${currentPlan.topic}<br><small style="opacity:0.8;font-weight:500">${currentPlan.file}</small></div></div>`;
+                document.getElementById('todayWeek').textContent = `Неделя ${currentPlan.week} • День ${currentDayIndex + 1} из ${PLAN.length}`;
+                
+                todayContent.innerHTML = `
+                    <div class="today-material">
+                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+                            <span style="font-size:32px">${currentPlan.icon}</span>
+                            <div style="flex:1">${currentPlan.topic}</div>
+                        </div>
+                    </div>
+                    <div class="today-file">📄 ${currentPlan.file}</div>
+                    <a href="${currentPlan.file}" target="_blank" class="btn btn-link" style="width:100%;margin-bottom:10px">📖 Открыть материал</a>
+                `;
                 
                 if (completedDays.includes(currentDayIndex)) {
                     markBtn.textContent = '✅ Уже отправлено';
@@ -230,7 +232,7 @@
             
             for(let w=1; w<=4; w++) {
                 const weekDays = PLAN.filter(p => p.week === w);
-                const completedInWeek = weekDays.filter((day, idx) => {
+                const completedInWeek = weekDays.filter((day) => {
                     const globalIdx = PLAN.indexOf(day);
                     return completedDays.includes(globalIdx);
                 }).length;
@@ -248,7 +250,7 @@
                             const isDone = completedDays.includes(globalIdx);
                             return `
                                 <div class="day-item ${isDone ? 'done' : ''}">
-                                    <div class="day-icon ${isDone ? 'done' : 'pending'}">${day.icon}</div>
+                                    <div class="day-icon ${isDone ? 'done' : 'pending'}">${day.icon || '📄'}</div>
                                     <div class="day-info">
                                         <div class="day-name">${day.day} • ${day.topic}</div>
                                         <div class="day-topic">${day.file}</div>
@@ -291,14 +293,14 @@
                 completedDays.push(currentDayIndex);
                 localStorage.setItem('completedDays', JSON.stringify(completedDays));
                 render();
-                alert('✅ Отлично! Материал отправлен! Так держать! 🚀');
+                alert('✅ Отлично! Материал отправлен! Так держать! ');
             }
         }
         
         function showNextDay() {
             const today = new Date();
             if (isWeekend(today)) {
-                alert('Сегодня выходной! Отдыхайте! 🎉');
+                alert('🎉 Сегодня выходной! Отдыхайте! Следующий материал в понедельник.');
                 return;
             }
             
@@ -306,7 +308,12 @@
             const nextDayIndex = Math.min(businessDayCount, PLAN.length - 1);
             const nextPlan = PLAN[nextDayIndex];
             
-            alert(`📅 Завтра:\n\n${nextPlan.topic}\n\nФайл: ${nextPlan.file}`);
+            if (nextDayIndex >= PLAN.length - 1 && completedDays.length >= PLAN.length - 1) {
+                alert(' Поздравляем! Вы прошли всё обучение!');
+                return;
+            }
+            
+            alert(`📅 ЗАВТРА:\n\n${nextPlan.topic}\n\n📄 Файл: ${nextPlan.file}\n\nНеделя ${nextPlan.week}, День ${nextDayIndex + 1}`);
         }
         
         function resetProgress() {
