@@ -1,283 +1,35 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>585GOLD Обучение</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#E30613">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-        
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:#f5f5f5;min-height:100vh;padding:16px}
-        .container{max-width:600px;margin:0 auto}
-        
-        .header{background:#fff;border-radius:20px;padding:20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);text-align:center;border-top:4px solid #E30613}
-        .header h1{font-size:24px;font-weight:800;color:#E30613;margin-bottom:4px}
-        .header p{font-size:13px;color:#666;font-weight:500}
-        
-        .today-hero{background:linear-gradient(135deg,#E30613,#c41c2a);border-radius:24px;padding:28px;margin-bottom:20px;box-shadow:0 12px 40px rgba(196,30,58,0.3);color:#fff}
-        .today-label{font-size:11px;text-transform:uppercase;font-weight:700;opacity:0.9;margin-bottom:8px;letter-spacing:1px;background:rgba(255,255,255,0.2);display:inline-block;padding:6px 12px;border-radius:8px}
-        .today-date{font-size:18px;font-weight:700;margin:12px 0 4px}
-        .today-week{font-size:13px;opacity:0.9;margin-bottom:16px}
-        .today-topic{background:#fff;color:#333;padding:16px;border-radius:16px;font-size:16px;font-weight:700;margin-bottom:12px;line-height:1.4;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
-        .today-file{background:rgba(255,255,255,0.2);padding:10px 14px;border-radius:12px;font-size:13px;margin-bottom:16px;font-family:monospace;color:#fff}
-        .today-actions{display:flex;gap:10px}
-        .btn{flex:1;background:#fff;color:#E30613;border:none;padding:14px 20px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-decoration:none;display:inline-block;text-align:center}
-        .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.15)}
-        .btn:active{transform:scale(0.98)}
-        .btn-success{background:#10b981;color:#fff}
-        .btn-success:disabled{background:#6b7280;cursor:not-allowed}
-        .btn-secondary{background:rgba(255,255,255,0.2);color:#fff}
-        .btn-link{background:#fff;color:#E30613;text-decoration:none}
-        
-        .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
-        .stat-card{background:#fff;border-radius:16px;padding:16px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
-        .stat-value{font-size:26px;font-weight:800;color:#E30613;margin-bottom:4px}
-        .stat-label{font-size:11px;color:#666;font-weight:600;text-transform:uppercase}
-        
-        .progress-container{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
-        .progress-header{display:flex;justify-content:space-between;margin-bottom:12px}
-        .progress-label{font-size:13px;font-weight:600;color:#333}
-        .progress-percent{font-size:13px;font-weight:700;color:#E30613}
-        .progress-bar{background:#e5e7eb;border-radius:12px;height:12px;overflow:hidden}
-        .progress-fill{background:linear-gradient(90deg,#10b981,#059669);height:100%;border-radius:12px;transition:width 0.8s ease}
-        
-        .schedule-section{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
-        .schedule-title{font-size:16px;font-weight:700;color:#E30613;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #E30613}
-        .schedule-item{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid #f3f4f6}
-        .schedule-item:last-child{border-bottom:none}
-        .schedule-item.done{opacity:0.5}
-        .schedule-item.today{background:#fff5f5;margin:0 -12px;padding:12px;border-radius:12px;border-left:4px solid #E30613}
-        .schedule-day{width:36px;height:36px;background:#E30613;color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-right:12px;flex-shrink:0}
-        .schedule-day.done{background:#10b981}
-        .schedule-day.today{background:#E30613;animation:pulse 2s infinite}
-        .schedule-info{flex:1}
-        .schedule-week{font-size:11px;color:#666;font-weight:600}
-        .schedule-topic{font-size:13px;font-weight:600;color:#333;margin-top:2px}
-        .schedule-check{width:24px;height:24px;border:2px solid #E30613;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer}
-        .schedule-check.checked{background:#10b981}
-        .schedule-check.checked::after{content:'✓';color:#fff;font-size:14px;font-weight:700}
-        
-        @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(227,6,19,0.4)}70%{box-shadow:0 0 0 10px rgba(227,6,19,0)}100%{box-shadow:0 0 0 0 rgba(227,6,19,0)}}
-        
-        .weekend-card{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-radius:20px;padding:28px;margin-bottom:20px;text-align:center}
-        .weekend-card h2{font-size:22px;font-weight:800;margin-bottom:8px}
-        .weekend-card p{font-size:14px;opacity:0.9}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>💎 585GOLD Обучение</h1>
-            <p>План отправки материалов в розницу</p>
-        </div>
-        
-        <div id="todayContainer"></div>
-        
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value" id="statCompleted">0</div>
-                <div class="stat-label">Пройдено</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="statRemaining">20</div>
-                <div class="stat-label">Осталось</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="statPercent">0%</div>
-                <div class="stat-label">Прогресс</div>
-            </div>
-        </div>
-        
-        <div class="progress-container">
-            <div class="progress-header">
-                <span class="progress-label">Общий прогресс обучения</span>
-                <span class="progress-percent" id="progressPercent">0/20 дней</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width:0%"></div>
-            </div>
-        </div>
-        
-        <div class="schedule-section">
-            <div class="schedule-title">📅 Расписание на 4 недели</div>
-            <div id="scheduleContainer"></div>
-        </div>
-        
-        <button class="btn" onclick="resetProgress()" style="background:#6b7280;color:#fff;width:100%">🔄 Сбросить весь прогресс</button>
-    </div>
-    
-    <script>
-        // ========== ДАТА СТАРТА ==========
-        const START_DATE = new Date('2026-08-03');
-        
-        // ========== ПЛАН ОБУЧЕНИЯ (20 рабочих дней) ==========
-        const PLAN = [
-            {week:1,day:'Пн',topic:'Входной тест + Стандарты обслуживания',file:'test_new.html',link:'https://wetalsfinx.github.io/Test/test_new.html'},
-            {week:1,day:'Вт',topic:'Речевая пластинка с акциями',file:'Речевая пластинка.html',link:'Речевая пластинка.html'},
-            {week:1,day:'Ср',topic:'Сервис с человеческим лицом',file:'Сервис.html',link:'Сервис.html'},
-            {week:1,day:'Чт',topic:'«Можно» vs «Давайте»',file:'Можно vs Давайте.html',link:'Можно vs Давайте.html'},
-            {week:1,day:'Пт',topic:'Конверсия: 6 правил',file:'Конверсия.html',link:'Конверсия.html'},
-            {week:2,day:'Пн',topic:'Путь к успешной продаже (5 шагов)',file:'Путь к успешной продаже.html',link:'Путь к успешной продаже.html'},
-            {week:2,day:'Вт',topic:'Презентация украшений (ХПВ)',file:'Презентация.html',link:'Презентация.html'},
-            {week:2,day:'Ср',topic:'Тренажёр: Диалоги',file:'dialog_trainer.html',link:'https://wetalsfinx.github.io/Test/dialog_trainer.html'},
-            {week:2,day:'Чт',topic:'Инициатива в диалоге',file:'Инициатива.html',link:'Инициатива.html'},
-            {week:2,day:'Пт',topic:'Игра: Найди ошибку',file:'error_finder.html',link:'https://wetalsfinx.github.io/Test/error_finder.html'},
-            {week:3,day:'Пн',topic:'Тренажёр: Типы клиентов',file:'client_type_trainer.html',link:'https://wetalsfinx.github.io/Test/client_type_trainer.html'},
-            {week:3,day:'Вт',topic:'Второе украшение (10 ситуаций)',file:'Предложение второго украшения.html',link:'Предложение второго украшения.html'},
-            {week:3,day:'Ср',topic:'Тренажёр: Допродажи',file:'crosssell_trainer.html',link:'https://wetalsfinx.github.io/Test/crosssell_trainer.html'},
-            {week:3,day:'Чт',topic:'Каталог + Альтернатива',file:'Электронный каталог.html',link:'Электронный каталог.html'},
-            {week:3,day:'Пт',topic:'Переориентация на золото',file:'Продажа золота.html',link:'Продажа золота.html'},
-            {week:4,day:'Пн',topic:'Работа с «Дорого»',file:'Дорого.html',link:'Дорого.html'},
-            {week:4,day:'Вт',topic:'10 инструментов увеличения продаж',file:'Увеличение продаж.html',link:'Увеличение продаж.html'},
-            {week:4,day:'Ср',topic:'Лайфхаки (5 быстрых побед)',file:'Увеличение продаж. Лайфках.html',link:'Увеличение продаж. Лайфках.html'},
-            {week:4,day:'Чт',topic:'Финишная прямая',file:'Финишная прямая.html',link:'Финишная прямая.html'},
-            {week:4,day:'Пт',topic:'Итоговая аттестация',file:'final_exam.html',link:'https://wetalsfinx.github.io/Test/final_exam.html'}
-        ];
-        
-        let completedDays = JSON.parse(localStorage.getItem('completedDays') || '[]');
-        
-        function isWeekend(date) {
-            const day = date.getDay();
-            return day === 0 || day === 6;
-        }
-        
-        function countBusinessDays(start, end) {
-            let count = 0;
-            let current = new Date(start);
-            while (current <= end) {
-                if (!isWeekend(current)) count++;
-                current.setDate(current.getDate() + 1);
-            }
-            return count;
-        }
-        
-        function formatDate(date) {
-            return date.toLocaleDateString('ru-RU', {day:'numeric',month:'long'});
-        }
-        
-        function render() {
-            const today = new Date();
-            const todayContainer = document.getElementById('todayContainer');
-            
-            if (isWeekend(today)) {
-                todayContainer.innerHTML = `
-                    <div class="weekend-card">
-                        <h2>🎉 Выходной день!</h2>
-                        <p>Отдыхайте! Следующая отправка в понедельник.</p>
-                    </div>
-                `;
-            } else {
-                const businessDayCount = countBusinessDays(START_DATE, today);
-                const currentDayIndex = Math.min(Math.max(businessDayCount - 1, 0), PLAN.length - 1);
-                const currentPlan = PLAN[currentDayIndex];
-                const isDone = completedDays.includes(currentDayIndex);
-                
-                todayContainer.innerHTML = `
-                    <div class="today-hero">
-                        <div class="today-label">📤 ОТПРАВИТЬ СЕГОДНЯ</div>
-                        <div class="today-date">${formatDate(today)}</div>
-                        <div class="today-week">Неделя ${currentPlan.week} • День ${currentDayIndex + 1} из ${PLAN.length}</div>
-                        <div class="today-topic">${currentPlan.topic}</div>
-                        <div class="today-file">📄 ${currentPlan.file}</div>
-                        <a href="${currentPlan.link}" target="_blank" class="btn btn-link" style="width:100%;margin-bottom:10px">📖 Открыть материал</a>
-                        <div class="today-actions">
-                            <button class="btn btn-success" id="markDone" onclick="markTodayDone()" ${isDone ? 'disabled' : ''}>
-                                ${isDone ? '✅ Уже отправлено' : '✅ Отметить как отправлено'}
-                            </button>
-                            <button class="btn btn-secondary" onclick="showNextDay()">Что дальше? →</button>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            const progress = (completedDays.length / PLAN.length) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-            document.getElementById('progressPercent').textContent = `${completedDays.length}/${PLAN.length} дней`;
-            document.getElementById('statCompleted').textContent = completedDays.length;
-            document.getElementById('statRemaining').textContent = PLAN.length - completedDays.length;
-            document.getElementById('statPercent').textContent = Math.round(progress) + '%';
-            
-            const scheduleContainer = document.getElementById('scheduleContainer');
-            const businessDayCount = countBusinessDays(START_DATE, today);
-            const currentDayIndex = isWeekend(today) ? businessDayCount - 2 : businessDayCount - 1;
-            
-            scheduleContainer.innerHTML = PLAN.map((item, idx) => {
-                const isDone = completedDays.includes(idx);
-                const isToday = idx === currentDayIndex && !isWeekend(today);
-                return `
-                    <div class="schedule-item ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}">
-                        <div class="schedule-day ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}">${item.day}</div>
-                        <div class="schedule-info">
-                            <div class="schedule-week">Неделя ${item.week}</div>
-                            <div class="schedule-topic">${item.topic}</div>
-                        </div>
-                        <div class="schedule-check ${isDone ? 'checked' : ''}" onclick="toggleDay(${idx})"></div>
-                    </div>
-                `;
-            }).join('');
-        }
-        
-        function toggleDay(idx) {
-            if(completedDays.includes(idx)) {
-                completedDays = completedDays.filter(i => i !== idx);
-            } else {
-                completedDays.push(idx);
-            }
-            localStorage.setItem('completedDays', JSON.stringify(completedDays));
-            render();
-        }
-        
-        function markTodayDone() {
-            const today = new Date();
-            if (isWeekend(today)) return;
-            
-            const businessDayCount = countBusinessDays(START_DATE, today);
-            const currentDayIndex = Math.min(Math.max(businessDayCount - 1, 0), PLAN.length - 1);
-            
-            if(!completedDays.includes(currentDayIndex)) {
-                completedDays.push(currentDayIndex);
-                localStorage.setItem('completedDays', JSON.stringify(completedDays));
-                render();
-                alert('✅ Отлично! Материал отправлен! Так держать!');
-            }
-        }
-        
-        function showNextDay() {
-            const today = new Date();
-            if (isWeekend(today)) {
-                alert('🎉 Сегодня выходной! Следующая отправка в понедельник.');
-                return;
-            }
-            
-            const businessDayCount = countBusinessDays(START_DATE, today);
-            const nextDayIndex = Math.min(businessDayCount, PLAN.length - 1);
-            const nextPlan = PLAN[nextDayIndex];
-            
-            if (nextDayIndex >= PLAN.length - 1 && completedDays.length >= PLAN.length - 1) {
-                alert('🏆 Поздравляем! Вы прошли всё обучение!');
-                return;
-            }
-            
-            alert(`📅 ЗАВТРА:\n\n${nextPlan.topic}\n\n Файл: ${nextPlan.file}\n\nНеделя ${nextPlan.week}`);
-        }
-        
-        function resetProgress() {
-            if(confirm('⚠️ Сбросить весь прогресс?')) {
-                completedDays = [];
-                localStorage.setItem('completedDays', JSON.stringify(completedDays));
-                render();
-                alert('Прогресс сброшен');
-            }
-        }
-        
-        render();
-        
-        if('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('service-worker.js');
-        }
-    </script>
-</body>
-</html>
+const CACHE_NAME = '585gold-v1';
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/manifest.json'
+];
+
+// Установка
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(urlsToCache);
+    })
+  );
+});
+
+// Активация
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.filter(name => name !== CACHE_NAME).map(name => caches.delete(name))
+      );
+    })
+  );
+});
+
+// Запросы
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
+    })
+  );
+});
