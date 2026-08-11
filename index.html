@@ -1,35 +1,542 @@
-const CACHE_NAME = '585gold-v1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json'
-];
-
-// Установка
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(urlsToCache);
-    })
-  );
-});
-
-// Активация
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.filter(name => name !== CACHE_NAME).map(name => caches.delete(name))
-      );
-    })
-  );
-});
-
-// Запросы
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    })
-  );
-});
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>585GOLD Обучение</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#E30613">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#f5f5f5;min-height:100vh;padding:16px}
+        .container{max-width:600px;margin:0 auto}
+        
+        .header{background:#fff;border-radius:20px;padding:20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);text-align:center;border-top:4px solid #E30613}
+        .header h1{font-size:24px;font-weight:800;color:#E30613;margin-bottom:4px}
+        .header p{font-size:13px;color:#666;font-weight:500}
+        
+        .today-hero{background:linear-gradient(135deg,#E30613,#c41c2a);border-radius:24px;padding:28px;margin-bottom:20px;box-shadow:0 12px 40px rgba(196,30,58,0.3);color:#fff}
+        .today-label{font-size:11px;text-transform:uppercase;font-weight:700;opacity:0.9;margin-bottom:8px;letter-spacing:1px;background:rgba(255,255,255,0.2);display:inline-block;padding:6px 12px;border-radius:8px}
+        .today-date{font-size:18px;font-weight:700;margin:12px 0 4px}
+        .today-week{font-size:13px;opacity:0.9;margin-bottom:16px}
+        .today-topic{background:#fff;color:#333;padding:16px;border-radius:16px;font-size:16px;font-weight:700;margin-bottom:12px;line-height:1.4;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+        .today-file{background:rgba(255,255,255,0.2);padding:10px 14px;border-radius:12px;font-size:13px;margin-bottom:16px;font-family:monospace;color:#fff}
+        .today-actions{display:flex;gap:10px;margin-bottom:16px}
+        .btn{flex:1;background:#fff;color:#E30613;border:none;padding:14px 20px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-decoration:none;display:inline-block;text-align:center;font-family:'Inter',sans-serif}
+        .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.15)}
+        .btn:active{transform:scale(0.98)}
+        .btn-success{background:#10b981;color:#fff}
+        .btn-success:disabled{background:#6b7280;cursor:not-allowed}
+        .btn-secondary{background:rgba(255,255,255,0.2);color:#fff}
+        .btn-link{background:#fff;color:#E30613;text-decoration:none}
+        
+        .today-notes{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border-radius:16px;padding:14px;border:1px solid rgba(255,255,255,0.2)}
+        .today-notes-label{font-size:12px;font-weight:700;color:#fff;margin-bottom:8px;display:flex;align-items:center;gap:6px;letter-spacing:0.5px;text-transform:uppercase}
+        .today-notes-textarea{
+            width:100%;min-height:80px;padding:12px;border-radius:10px;
+            border:2px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.95);
+            color:#333;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;
+            line-height:1.5;transition:border-color 0.3s;
+        }
+        .today-notes-textarea:focus{outline:none;border-color:#fff;background:#fff}
+        .today-notes-textarea::placeholder{color:#999}
+        .notes-status{font-size:11px;color:rgba(255,255,255,0.9);margin-top:6px;display:flex;align-items:center;gap:6px;min-height:16px}
+        .notes-status.saved::before{content:'✓';color:#10b981;font-weight:700}
+        .notes-status.saving::before{content:'';display:inline-block;width:10px;height:10px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        
+        .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+        .stat-card{background:#fff;border-radius:16px;padding:16px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+        .stat-value{font-size:26px;font-weight:800;color:#E30613;margin-bottom:4px}
+        .stat-label{font-size:11px;color:#666;font-weight:600;text-transform:uppercase}
+        
+        .progress-container{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+        .progress-header{display:flex;justify-content:space-between;margin-bottom:12px}
+        .progress-label{font-size:13px;font-weight:600;color:#333}
+        .progress-percent{font-size:13px;font-weight:700;color:#E30613}
+        .progress-bar{background:#e5e7eb;border-radius:12px;height:12px;overflow:hidden}
+        .progress-fill{background:linear-gradient(90deg,#10b981,#059669);height:100%;border-radius:12px;transition:width 0.8s ease}
+        
+        .schedule-section{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+        .schedule-title{font-size:16px;font-weight:700;color:#E30613;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #E30613}
+        .schedule-item{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid #f3f4f6;cursor:pointer;transition:background 0.2s;border-radius:8px}
+        .schedule-item:hover{background:#fafafa}
+        .schedule-item:last-child{border-bottom:none}
+        .schedule-item.done{opacity:0.6}
+        .schedule-item.today{background:#fff5f5;margin:0 -12px;padding:12px;border-radius:12px;border-left:4px solid #E30613}
+        .schedule-day{width:36px;height:36px;background:#E30613;color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-right:12px;flex-shrink:0}
+        .schedule-day.done{background:#10b981}
+        .schedule-day.today{background:#E30613;animation:pulse 2s infinite}
+        .schedule-info{flex:1;min-width:0}
+        .schedule-week{font-size:11px;color:#666;font-weight:600}
+        .schedule-topic{font-size:13px;font-weight:600;color:#333;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .schedule-note-icon{font-size:16px;margin-right:8px;color:#E30613;flex-shrink:0}
+        .schedule-check{width:24px;height:24px;border:2px solid #E30613;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-left:8px}
+        .schedule-check.checked{background:#10b981;border-color:#10b981}
+        .schedule-check.checked::after{content:'✓';color:#fff;font-size:14px;font-weight:700}
+        
+        @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(227,6,19,0.4)}70%{box-shadow:0 0 0 10px rgba(227,6,19,0)}100%{box-shadow:0 0 0 0 rgba(227,6,19,0)}}
+        
+        .weekend-card{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-radius:20px;padding:28px;margin-bottom:20px;text-align:center}
+        .weekend-card h2{font-size:22px;font-weight:800;margin-bottom:8px}
+        .weekend-card p{font-size:14px;opacity:0.9}
+        
+        .modal-overlay{
+            position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);
+            display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;
+        }
+        .modal-overlay.active{display:flex}
+        .modal{
+            background:#fff;border-radius:20px;width:100%;max-width:500px;max-height:85vh;
+            display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.3);
+            animation:modalIn 0.3s ease;
+        }
+        @keyframes modalIn{from{opacity:0;transform:scale(0.95) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+        .modal-header{padding:20px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:12px}
+        .modal-day-badge{width:40px;height:40px;background:#E30613;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+        .modal-title{flex:1;min-width:0}
+        .modal-title-week{font-size:11px;color:#666;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+        .modal-title-topic{font-size:15px;font-weight:700;color:#333;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .modal-close{background:none;border:none;font-size:24px;color:#999;cursor:pointer;padding:4px 8px;line-height:1;transition:color 0.2s}
+        .modal-close:hover{color:#333}
+        .modal-body{padding:20px;flex:1;overflow-y:auto}
+        .modal-textarea{
+            width:100%;min-height:180px;padding:14px;border-radius:12px;
+            border:2px solid #e5e7eb;background:#f9fafb;color:#333;font-size:14px;
+            font-family:'Inter',sans-serif;resize:vertical;line-height:1.5;transition:all 0.3s;
+        }
+        .modal-textarea:focus{outline:none;border-color:#E30613;background:#fff;box-shadow:0 0 0 4px rgba(227,6,19,0.1)}
+        .modal-textarea::placeholder{color:#999}
+        .modal-footer{padding:16px 20px;border-top:1px solid #f3f4f6;display:flex;gap:10px;align-items:center}
+        .modal-status{font-size:12px;color:#666;flex:1;display:flex;align-items:center;gap:6px}
+        .modal-status.saved{color:#10b981;font-weight:600}
+        .modal-status.saving{color:#666}
+        .modal-btn{padding:10px 20px;border-radius:10px;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s}
+        .modal-btn-primary{background:#E30613;color:#fff}
+        .modal-btn-primary:hover{background:#c41c2a}
+        .modal-btn-danger{background:#fee2e2;color:#dc2626}
+        .modal-btn-danger:hover{background:#fecaca}
+        .modal-btn-danger:disabled{background:#f3f4f6;color:#9ca3af;cursor:not-allowed}
+        
+        .weekend-note-hint{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border-radius:12px;padding:12px 16px;margin-top:16px;font-size:13px;text-align:left;border:1px dashed rgba(255,255,255,0.3)}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💎 585GOLD Обучение</h1>
+            <p>План отправки материалов в розницу</p>
+        </div>
+        
+        <div id="todayContainer"></div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="statCompleted">0</div>
+                <div class="stat-label">Пройдено</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statRemaining">20</div>
+                <div class="stat-label">Осталось</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statPercent">0%</div>
+                <div class="stat-label">Прогресс</div>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-header">
+                <span class="progress-label">Общий прогресс обучения</span>
+                <span class="progress-percent" id="progressPercent">0/20 дней</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width:0%"></div>
+            </div>
+        </div>
+        
+        <div class="schedule-section">
+            <div class="schedule-title">📅 Расписание на 4 недели</div>
+            <div id="scheduleContainer"></div>
+        </div>
+        
+        <button class="btn" onclick="resetProgress()" style="background:#6b7280;color:#fff;width:100%">🔄 Сбросить весь прогресс</button>
+    </div>
+    
+    <div class="modal-overlay" id="noteModal" onclick="closeNoteModalOnOverlay(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-day-badge" id="modalDayBadge">Пн</div>
+                <div class="modal-title">
+                    <div class="modal-title-week" id="modalWeek">Неделя 1</div>
+                    <div class="modal-title-topic" id="modalTopic">Тема</div>
+                </div>
+                <button class="modal-close" onclick="closeNoteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <textarea 
+                    class="modal-textarea" 
+                    id="modalTextarea" 
+                    placeholder="Напишите ваши заметки, наблюдения, фидбек от продавцов..."
+                    oninput="onModalTextareaInput()"
+                ></textarea>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-status" id="modalStatus"></div>
+                <button class="modal-btn modal-btn-danger" id="modalClearBtn" onclick="clearCurrentNote()">Очистить</button>
+                <button class="modal-btn modal-btn-primary" onclick="closeNoteModal()">Готово</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const START_DATE = new Date('2026-08-03');
+        
+        const PLAN = [
+            {week:1,day:'Пн',topic:'Входной тест + Стандарты обслуживания',file:'test_new.html',link:'https://wetalsfinx.github.io/Test/test_new.html'},
+            {week:1,day:'Вт',topic:'Речевая пластинка с акциями',file:'Речевая пластинка.html',link:'Речевая пластинка.html'},
+            {week:1,day:'Ср',topic:'Сервис с человеческим лицом',file:'Сервис.html',link:'Сервис.html'},
+            {week:1,day:'Чт',topic:'«Можно» vs «Давайте»',file:'Можно vs Давайте.html',link:'Можно vs Давайте.html'},
+            {week:1,day:'Пт',topic:'Конверсия: 6 правил',file:'Конверсия.html',link:'Конверсия.html'},
+            {week:2,day:'Пн',topic:'Путь к успешной продаже (5 шагов)',file:'Путь к успешной продаже.html',link:'Путь к успешной продаже.html'},
+            {week:2,day:'Вт',topic:'Презентация украшений (ХПВ)',file:'Презентация.html',link:'Презентация.html'},
+            {week:2,day:'Ср',topic:'Тренажёр: Диалоги',file:'dialog_trainer.html',link:'https://wetalsfinx.github.io/Test/dialog_trainer.html'},
+            {week:2,day:'Чт',topic:'Инициатива в диалоге',file:'Инициатива.html',link:'Инициатива.html'},
+            {week:2,day:'Пт',topic:'Игра: Найди ошибку',file:'error_finder.html',link:'https://wetalsfinx.github.io/Test/error_finder.html'},
+            {week:3,day:'Пн',topic:'Тренажёр: Типы клиентов',file:'client_type_trainer.html',link:'https://wetalsfinx.github.io/Test/client_type_trainer.html'},
+            {week:3,day:'Вт',topic:'Второе украшение (10 ситуаций)',file:'Предложение второго украшения.html',link:'Предложение второго украшения.html'},
+            {week:3,day:'Ср',topic:'Тренажёр: Допродажи',file:'crosssell_trainer.html',link:'https://wetalsfinx.github.io/Test/crosssell_trainer.html'},
+            {week:3,day:'Чт',topic:'Каталог + Альтернатива',file:'Электронный каталог.html',link:'Электронный каталог.html'},
+            {week:3,day:'Пт',topic:'Переориентация на золото',file:'Продажа золота.html',link:'Продажа золота.html'},
+            {week:4,day:'Пн',topic:'Работа с «Дорого»',file:'Дорого.html',link:'Дорого.html'},
+            {week:4,day:'Вт',topic:'10 инструментов увеличения продаж',file:'Увеличение продаж.html',link:'Увеличение продаж.html'},
+            {week:4,day:'Ср',topic:'Лайфхаки (5 быстрых побед)',file:'Увеличение продаж. Лайфках.html',link:'Увеличение продаж. Лайфках.html'},
+            {week:4,day:'Чт',topic:'Финишная прямая',file:'Финишная прямая.html',link:'Финишная прямая.html'},
+            {week:4,day:'Пт',topic:'Итоговая аттестация',file:'final_exam.html',link:'https://wetalsfinx.github.io/Test/final_exam.html'}
+        ];
+        
+        let completedDays = JSON.parse(localStorage.getItem('completedDays') || '[]');
+        let dayNotes = JSON.parse(localStorage.getItem('dayNotes') || '{}');
+        let currentModalIndex = null;
+        let saveTimeout = null;
+        
+        function isWeekend(date) {
+            const day = date.getDay();
+            return day === 0 || day === 6;
+        }
+        
+        function countBusinessDays(start, end) {
+            let count = 0;
+            let current = new Date(start);
+            while (current <= end) {
+                if (!isWeekend(current)) count++;
+                current.setDate(current.getDate() + 1);
+            }
+            return count;
+        }
+        
+        function formatDate(date) {
+            return date.toLocaleDateString('ru-RU', {day:'numeric',month:'long'});
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function getNotePreview(idx) {
+            const note = dayNotes[idx];
+            if (!note) return '';
+            return note.length > 60 ? note.substring(0, 60) + '...' : note;
+        }
+        
+        function getCurrentDayIndex() {
+            const today = new Date();
+            if (isWeekend(today)) return -1;
+            const businessDayCount = countBusinessDays(START_DATE, today);
+            return Math.min(Math.max(businessDayCount - 1, 0), PLAN.length - 1);
+        }
+        
+        function render() {
+            const today = new Date();
+            const todayContainer = document.getElementById('todayContainer');
+            
+            if (isWeekend(today)) {
+                const nextMonday = new Date(today);
+                const daysUntilMonday = (8 - today.getDay()) % 7 || 7;
+                nextMonday.setDate(today.getDate() + daysUntilMonday);
+                const nextDayIndex = Math.min(countBusinessDays(START_DATE, nextMonday) - 1, PLAN.length - 1);
+                const nextPlan = PLAN[nextDayIndex];
+                
+                todayContainer.innerHTML = `
+                    <div class="weekend-card">
+                        <h2>🎉 Выходной день!</h2>
+                        <p>Отдыхайте! Следующая отправка в понедельник.</p>
+                        <div class="weekend-note-hint">
+                            💡 <strong>Совет:</strong> можете заранее подготовить заметки к следующему материалу — <em>${escapeHtml(nextPlan.topic)}</em>
+                        </div>
+                    </div>
+                `;
+            } else {
+                const currentDayIndex = getCurrentDayIndex();
+                const currentPlan = PLAN[currentDayIndex];
+                const isDone = completedDays.includes(currentDayIndex);
+                const currentNote = dayNotes[currentDayIndex] || '';
+                
+                todayContainer.innerHTML = `
+                    <div class="today-hero">
+                        <div class="today-label">📤 ОТПРАВИТЬ СЕГОДНЯ</div>
+                        <div class="today-date">${formatDate(today)}</div>
+                        <div class="today-week">Неделя ${currentPlan.week} • День ${currentDayIndex + 1} из ${PLAN.length}</div>
+                        <div class="today-topic">${currentPlan.topic}</div>
+                        <div class="today-file">📄 ${currentPlan.file}</div>
+                        <a href="${currentPlan.link}" target="_blank" class="btn btn-link" style="width:100%;margin-bottom:10px">📖 Открыть материал</a>
+                        <div class="today-actions">
+                            <button class="btn btn-success" id="markDone" onclick="markTodayDone()" ${isDone ? 'disabled' : ''}>
+                                ${isDone ? '✅ Уже отправлено' : '✅ Отметить как отправлено'}
+                            </button>
+                            <button class="btn btn-secondary" onclick="showNextDay()">Что дальше? →</button>
+                        </div>
+                        <div class="today-notes">
+                            <div class="today-notes-label">📝 Заметки на сегодня</div>
+                            <textarea 
+                                class="today-notes-textarea" 
+                                id="todayNotesTextarea" 
+                                placeholder="Запишите наблюдения, фидбек продавцов, идеи на будущее..."
+                                oninput="onTodayNotesInput()"
+                            >${escapeHtml(currentNote)}</textarea>
+                            <div class="notes-status" id="todayNotesStatus">
+                                ${currentNote ? '<span class="saved">Сохранено</span>' : '<span>Автосохранение включено</span>'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            const progress = (completedDays.length / PLAN.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressPercent').textContent = `${completedDays.length}/${PLAN.length} дней`;
+            document.getElementById('statCompleted').textContent = completedDays.length;
+            document.getElementById('statRemaining').textContent = PLAN.length - completedDays.length;
+            document.getElementById('statPercent').textContent = Math.round(progress) + '%';
+            
+            renderScheduleList();
+        }
+        
+        function renderScheduleList() {
+            const scheduleContainer = document.getElementById('scheduleContainer');
+            const today = new Date();
+            const businessDayCount = countBusinessDays(START_DATE, today);
+            const currentDayIndex = isWeekend(today) ? -1 : businessDayCount - 1;
+            
+            scheduleContainer.innerHTML = PLAN.map((item, idx) => {
+                const isDone = completedDays.includes(idx);
+                const isToday = idx === currentDayIndex && !isWeekend(today);
+                const hasNote = !!dayNotes[idx];
+                const notePreview = hasNote ? escapeHtml(getNotePreview(idx)) : '';
+                
+                return `
+                    <div class="schedule-item ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}" onclick="openNoteModal(${idx})">
+                        <div class="schedule-day ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}">${item.day}</div>
+                        <div class="schedule-info">
+                            <div class="schedule-week">Неделя ${item.week}</div>
+                            <div class="schedule-topic">${item.topic}</div>
+                            ${hasNote ? `<div style="font-size:11px;color:#666;margin-top:4px;font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📝 ${notePreview}</div>` : ''}
+                        </div>
+                        ${hasNote ? '<div class="schedule-note-icon" title="Есть заметка">📝</div>' : ''}
+                        <div class="schedule-check ${isDone ? 'checked' : ''}" onclick="toggleDay(${idx}, event)"></div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function toggleDay(idx, event) {
+            event.stopPropagation();
+            if(completedDays.includes(idx)) {
+                completedDays = completedDays.filter(i => i !== idx);
+            } else {
+                completedDays.push(idx);
+            }
+            localStorage.setItem('completedDays', JSON.stringify(completedDays));
+            render();
+        }
+        
+        function markTodayDone() {
+            const today = new Date();
+            if (isWeekend(today)) return;
+            
+            const currentDayIndex = getCurrentDayIndex();
+            
+            if(!completedDays.includes(currentDayIndex)) {
+                completedDays.push(currentDayIndex);
+                localStorage.setItem('completedDays', JSON.stringify(completedDays));
+                render();
+                alert('✅ Отлично! Материал отправлен! Так держать!');
+            }
+        }
+        
+        function showNextDay() {
+            const today = new Date();
+            if (isWeekend(today)) {
+                alert('🎉 Сегодня выходной! Следующая отправка в понедельник.');
+                return;
+            }
+            
+            const businessDayCount = countBusinessDays(START_DATE, today);
+            const nextDayIndex = Math.min(businessDayCount, PLAN.length - 1);
+            const nextPlan = PLAN[nextDayIndex];
+            
+            if (nextDayIndex >= PLAN.length - 1 && completedDays.length >= PLAN.length - 1) {
+                alert('🏆 Поздравляем! Вы прошли всё обучение!');
+                return;
+            }
+            
+            alert(`📅 ЗАВТРА:\n\n${nextPlan.topic}\n\n📄 Файл: ${nextPlan.file}\n\nНеделя ${nextPlan.week}`);
+        }
+        
+        function resetProgress() {
+            if(confirm('⚠️ Сбросить весь прогресс и все заметки?')) {
+                completedDays = [];
+                dayNotes = {};
+                localStorage.setItem('completedDays', JSON.stringify(completedDays));
+                localStorage.setItem('dayNotes', JSON.stringify(dayNotes));
+                render();
+                alert('Прогресс и заметки сброшены');
+            }
+        }
+        
+        function onTodayNotesInput() {
+            const textarea = document.getElementById('todayNotesTextarea');
+            const status = document.getElementById('todayNotesStatus');
+            const currentDayIndex = getCurrentDayIndex();
+            
+            if (currentDayIndex === -1) return;
+            
+            status.className = 'notes-status saving';
+            status.innerHTML = '<span>Сохранение...</span>';
+            
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                const text = textarea.value.trim();
+                if (text) {
+                    dayNotes[currentDayIndex] = text;
+                } else {
+                    delete dayNotes[currentDayIndex];
+                }
+                localStorage.setItem('dayNotes', JSON.stringify(dayNotes));
+                status.className = 'notes-status saved';
+                status.innerHTML = '<span>Сохранено</span>';
+                renderScheduleList();
+            }, 500);
+        }
+        
+        function openNoteModal(idx) {
+            currentModalIndex = idx;
+            const plan = PLAN[idx];
+            
+            document.getElementById('modalDayBadge').textContent = plan.day;
+            document.getElementById('modalWeek').textContent = `Неделя ${plan.week}`;
+            document.getElementById('modalTopic').textContent = plan.topic;
+            document.getElementById('modalTextarea').value = dayNotes[idx] || '';
+            
+            updateModalStatus();
+            updateClearButton();
+            
+            document.getElementById('noteModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            setTimeout(() => {
+                document.getElementById('modalTextarea').focus();
+            }, 300);
+        }
+        
+        function closeNoteModal() {
+            document.getElementById('noteModal').classList.remove('active');
+            document.body.style.overflow = '';
+            currentModalIndex = null;
+            renderScheduleList();
+        }
+        
+        function closeNoteModalOnOverlay(event) {
+            if (event.target.id === 'noteModal') {
+                closeNoteModal();
+            }
+        }
+        
+        function onModalTextareaInput() {
+            if (currentModalIndex === null) return;
+            
+            const textarea = document.getElementById('modalTextarea');
+            const status = document.getElementById('modalStatus');
+            
+            status.className = 'modal-status saving';
+            status.innerHTML = '💾 Сохранение...';
+            updateClearButton();
+            
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                const text = textarea.value.trim();
+                if (text) {
+                    dayNotes[currentModalIndex] = text;
+                } else {
+                    delete dayNotes[currentModalIndex];
+                }
+                localStorage.setItem('dayNotes', JSON.stringify(dayNotes));
+                updateModalStatus();
+            }, 400);
+        }
+        
+        function updateModalStatus() {
+            const status = document.getElementById('modalStatus');
+            if (currentModalIndex === null) return;
+            
+            const hasNote = !!dayNotes[currentModalIndex];
+            if (hasNote) {
+                const text = dayNotes[currentModalIndex];
+                const words = text.split(/\s+/).filter(w => w).length;
+                const chars = text.length;
+                status.className = 'modal-status saved';
+                status.innerHTML = `✓ Сохранено • ${words} слов, ${chars} симв.`;
+            } else {
+                status.className = 'modal-status';
+                status.innerHTML = 'Автосохранение включено';
+            }
+            updateClearButton();
+        }
+        
+        function updateClearButton() {
+            const btn = document.getElementById('modalClearBtn');
+            const hasNote = currentModalIndex !== null && !!dayNotes[currentModalIndex];
+            btn.disabled = !hasNote;
+        }
+        
+        function clearCurrentNote() {
+            if (currentModalIndex === null) return;
+            if (!dayNotes[currentModalIndex]) return;
+            
+            if (confirm('Очистить заметку для этого дня?')) {
+                delete dayNotes[currentModalIndex];
+                localStorage.setItem('dayNotes', JSON.stringify(dayNotes));
+                document.getElementById('modalTextarea').value = '';
+                updateModalStatus();
+                renderScheduleList();
+            }
+        }
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('noteModal').classList.contains('active')) {
+                closeNoteModal();
+            }
+        });
+        
+        render();
+        
+        if('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js');
+        }
+    </script>
+</body>
+</html>
