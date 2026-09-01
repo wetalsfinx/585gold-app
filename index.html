@@ -192,29 +192,30 @@
     </div>
     
     <script>
-        const START_DATE = new Date('2026-08-03');
+        // Старт: 1 сентября 2026 (Вторник)
+        const START_DATE = new Date('2026-09-01');
         
         const PLAN = [
-            {week:1,day:'Пн',topic:'Входной тест + Стандарты обслуживания',file:'test_new.html',link:'https://wetalsfinx.github.io/Test/test_new.html'},
-            {week:1,day:'Вт',topic:'Речевая пластинка с акциями',file:'Речевая пластинка.html',link:'Речевая пластинка.html'},
-            {week:1,day:'Ср',topic:'Сервис с человеческим лицом',file:'Сервис.html',link:'Сервис.html'},
-            {week:1,day:'Чт',topic:'«Можно» vs «Давайте»',file:'Можно vs Давайте.html',link:'Можно vs Давайте.html'},
-            {week:1,day:'Пт',topic:'Конверсия: 6 правил',file:'Конверсия.html',link:'Конверсия.html'},
-            {week:2,day:'Пн',topic:'Путь к успешной продаже (5 шагов)',file:'Путь к успешной продаже.html',link:'Путь к успешной продаже.html'},
-            {week:2,day:'Вт',topic:'Презентация украшений (ХПВ)',file:'Презентация.html',link:'Презентация.html'},
-            {week:2,day:'Ср',topic:'Тренажёр: Диалоги',file:'dialog_trainer.html',link:'https://wetalsfinx.github.io/Test/dialog_trainer.html'},
-            {week:2,day:'Чт',topic:'Инициатива в диалоге',file:'Инициатива.html',link:'Инициатива.html'},
-            {week:2,day:'Пт',topic:'Игра: Найди ошибку',file:'error_finder.html',link:'https://wetalsfinx.github.io/Test/error_finder.html'},
-            {week:3,day:'Пн',topic:'Тренажёр: Типы клиентов',file:'client_type_trainer.html',link:'https://wetalsfinx.github.io/Test/client_type_trainer.html'},
-            {week:3,day:'Вт',topic:'Второе украшение (10 ситуаций)',file:'Предложение второго украшения.html',link:'Предложение второго украшения.html'},
-            {week:3,day:'Ср',topic:'Тренажёр: Допродажи',file:'crosssell_trainer.html',link:'https://wetalsfinx.github.io/Test/crosssell_trainer.html'},
-            {week:3,day:'Чт',topic:'Каталог + Альтернатива',file:'Электронный каталог.html',link:'Электронный каталог.html'},
-            {week:3,day:'Пт',topic:'Переориентация на золото',file:'Продажа золота.html',link:'Продажа золота.html'},
-            {week:4,day:'Пн',topic:'Работа с «Дорого»',file:'Дорого.html',link:'Дорого.html'},
-            {week:4,day:'Вт',topic:'10 инструментов увеличения продаж',file:'Увеличение продаж.html',link:'Увеличение продаж.html'},
-            {week:4,day:'Ср',topic:'Лайфхаки (5 быстрых побед)',file:'Увеличение продаж. Лайфках.html',link:'Увеличение продаж. Лайфках.html'},
-            {week:4,day:'Чт',topic:'Финишная прямая',file:'Финишная прямая.html',link:'Финишная прямая.html'},
-            {week:4,day:'Пт',topic:'Итоговая аттестация',file:'final_exam.html',link:'https://wetalsfinx.github.io/Test/final_exam.html'}
+            {week:1, day:'Вт', topic:'Знакомство + Стандарты обслуживания (12 этапов)', file:'Стандарты обслуживания.html', link:'Стандарты обслуживания.html'},
+            {week:1, day:'Ср', topic:'Речевая пластинка с акциями', file:'Речевая пластинка.html', link:'Речевая пластинка.html'},
+            {week:1, day:'Чт', topic:'Сервис с человеческим лицом + Вводный тест', file:'Сервис.html', link:'Сервис.html'},
+            {week:1, day:'Пт', topic:'«Можно» vs «Давайте»', file:'Можно vs Давайте.html', link:'Можно vs Давайте.html'},
+            {week:2, day:'Пн', topic:'Конверсия: 6 правил', file:'Конверсия.html', link:'Конверсия.html'},
+            {week:2, day:'Вт', topic:'Путь к успешной продаже (5 шагов)', file:'Путь к успешной продаже.html', link:'Путь к успешной продаже.html'},
+            {week:2, day:'Ср', topic:'Тренажёр: Диалоги', file:'dialog_trainer.html', link:'https://wetalsfinx.github.io/Test/dialog_trainer.html'},
+            {week:2, day:'Чт', topic:'Презентация украшений (ХПВ)', file:'Презентация.html', link:'Презентация.html'},
+            {week:2, day:'Пт', topic:'Предложение 2-го украшения (10 ситуаций)', file:'Предложение второго украшения.html', link:'Предложение второго украшения.html'},
+            {week:3, day:'Пн', topic:'Игра: Найди ошибку в диалоге', file:'error_finder.html', link:'https://wetalsfinx.github.io/Test/error_finder.html'},
+            {week:3, day:'Вт', topic:'Продажа золота (переориентация)', file:'Продажа золота.html', link:'Продажа золота.html'},
+            {week:3, day:'Ср', topic:'Работа с «Дорого»', file:'Дорого.html', link:'Дорого.html'},
+            {week:3, day:'Чт', topic:'Электронный каталог (5 ситуаций)', file:'Электронный каталог.html', link:'Электронный каталог.html'},
+            {week:3, day:'Пт', topic:'Альтернатива при отсутствии товара', file:'Альтернатива.html', link:'Альтернатива.html'},
+            {week:4, day:'Пн', topic:'Инициатива в диалоге', file:'Инициатива.html', link:'Инициатива.html'},
+            {week:4, day:'Вт', topic:'Тренажёр: Типы клиентов', file:'client_type_trainer.html', link:'https://wetalsfinx.github.io/Test/client_type_trainer.html'},
+            {week:4, day:'Ср', topic:'Тренажёр: Допродажи (cross-sell)', file:'crosssell_trainer.html', link:'https://wetalsfinx.github.io/Test/crosssell_trainer.html'},
+            {week:4, day:'Чт', topic:'10 инструментов увеличения продаж', file:'Увеличение продаж.html', link:'Увеличение продаж.html'},
+            {week:4, day:'Пт', topic:'Итоговая аттестация', file:'final_exam.html', link:'https://wetalsfinx.github.io/Test/final_exam.html'},
+            {week:5, day:'Пн', topic:'Финишная прямая + Лайфхаки', file:'Финишная прямая.html', link:'Финишная прямая.html'}
         ];
         
         let completedDays = JSON.parse(localStorage.getItem('completedDays') || '[]');
