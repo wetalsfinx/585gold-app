@@ -9,15 +9,19 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:#f5f5f5;min-height:100vh;padding:16px}
+        body{font-family:'Inter',sans-serif;background:#f5f5f5;min-height:100vh;padding:16px;color:#333;transition:background 0.3s, color 0.3s}
         .container{max-width:600px;margin:0 auto}
-        .header{background:#fff;border-radius:20px;padding:20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);text-align:center;border-top:4px solid #E30613}
+        .header{background:#fff;border-radius:20px;padding:20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);text-align:center;border-top:4px solid #E30613;position:relative;transition:background 0.3s}
         .header h1{font-size:24px;font-weight:800;color:#E30613;margin-bottom:4px}
-        .header p{font-size:13px;color:#666;font-weight:500}
+        .header p{font-size:13px;color:#666;font-weight:500;transition:color 0.3s}
+        .theme-toggle{position:absolute;top:15px;right:15px;background:none;border:none;font-size:22px;cursor:pointer;z-index:10;transition:transform 0.2s}
+        .theme-toggle:hover{transform:scale(1.1)}
+        
         .today-hero{background:linear-gradient(135deg,#E30613,#c41c2a);border-radius:24px;padding:28px;margin-bottom:20px;box-shadow:0 12px 40px rgba(196,30,58,0.3);color:#fff}
         .today-label{font-size:11px;text-transform:uppercase;font-weight:700;opacity:0.9;margin-bottom:8px;letter-spacing:1px;background:rgba(255,255,255,0.2);display:inline-block;padding:6px 12px;border-radius:8px}
         .today-date{font-size:18px;font-weight:700;margin:12px 0 4px}
-        .today-week{font-size:13px;opacity:0.9;margin-bottom:16px}
+        .today-week{font-size:13px;opacity:0.9;margin-bottom:10px}
+        .countdown{font-size:14px;font-weight:600;background:rgba(0,0,0,0.2);padding:8px 12px;border-radius:8px;display:inline-block;margin-bottom:12px}
         .today-topic{background:#fff;color:#333;padding:16px;border-radius:16px;font-size:16px;font-weight:700;margin-bottom:12px;line-height:1.4;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
         .today-file{background:rgba(255,255,255,0.2);padding:10px 14px;border-radius:12px;font-size:13px;margin-bottom:16px;font-family:monospace;color:#fff}
         .today-actions{display:flex;gap:10px;margin-bottom:16px}
@@ -35,17 +39,19 @@
         .today-notes-textarea::placeholder{color:#999}
         .notes-status{font-size:11px;color:rgba(255,255,255,0.9);margin-top:6px;display:flex;align-items:center;gap:6px;min-height:16px}
         .notes-status.saved::before{content:'✓';color:#10b981;font-weight:700}
+        
         .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
-        .stat-card{background:#fff;border-radius:16px;padding:16px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+        .stat-card{background:#fff;border-radius:16px;padding:16px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.08);transition:background 0.3s}
         .stat-value{font-size:26px;font-weight:800;color:#E30613;margin-bottom:4px}
-        .stat-label{font-size:11px;color:#666;font-weight:600;text-transform:uppercase}
-        .progress-container{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+        .stat-label{font-size:11px;color:#666;font-weight:600;text-transform:uppercase;transition:color 0.3s}
+        .progress-container{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08);transition:background 0.3s}
         .progress-header{display:flex;justify-content:space-between;margin-bottom:12px}
-        .progress-label{font-size:13px;font-weight:600;color:#333}
+        .progress-label{font-size:13px;font-weight:600;color:#333;transition:color 0.3s}
         .progress-percent{font-size:13px;font-weight:700;color:#E30613}
-        .progress-bar{background:#e5e7eb;border-radius:12px;height:12px;overflow:hidden}
+        .progress-bar{background:#e5e7eb;border-radius:12px;height:12px;overflow:hidden;transition:background 0.3s}
         .progress-fill{background:linear-gradient(90deg,#10b981,#059669);height:100%;border-radius:12px;transition:width 0.8s ease}
-        .schedule-section{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+        
+        .schedule-section{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08);transition:background 0.3s}
         .schedule-title{font-size:16px;font-weight:700;color:#E30613;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #E30613}
         .schedule-item{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid #f3f4f6;cursor:pointer;transition:background 0.2s;border-radius:8px}
         .schedule-item:hover{background:#fafafa}
@@ -56,38 +62,40 @@
         .schedule-day.done{background:#10b981}
         .schedule-day.today{background:#E30613;animation:pulse 2s infinite}
         .schedule-info{flex:1;min-width:0}
-        .schedule-week{font-size:11px;color:#666;font-weight:600}
-        .schedule-topic{font-size:13px;font-weight:600;color:#333;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .schedule-week{font-size:11px;color:#666;font-weight:600;transition:color 0.3s}
+        .schedule-topic{font-size:13px;font-weight:600;color:#333;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:color 0.3s}
         .schedule-note-icon{font-size:16px;margin-right:8px;color:#E30613;flex-shrink:0}
         .schedule-check{width:24px;height:24px;border:2px solid #E30613;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-left:8px}
         .schedule-check.checked{background:#10b981;border-color:#10b981}
         .schedule-check.checked::after{content:'✓';color:#fff;font-size:14px;font-weight:700}
         @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(227,6,19,0.4)}70%{box-shadow:0 0 0 10px rgba(227,6,19,0)}100%{box-shadow:0 0 0 0 rgba(227,6,19,0)}}
+        
         .weekend-card{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-radius:20px;padding:28px;margin-bottom:20px;text-align:center}
         .weekend-card h2{font-size:22px;font-weight:800;margin-bottom:8px}
         .weekend-card p{font-size:14px;opacity:0.9}
-        .sync-section{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08);border:2px dashed #E30613}
+        .sync-section{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08);border:2px dashed #E30613;transition:background 0.3s}
         .sync-title{font-size:16px;font-weight:700;color:#E30613;margin-bottom:12px;text-align:center}
         .sync-buttons{display:flex;gap:10px}
         .sync-btn{flex:1;padding:12px;border-radius:12px;border:2px solid #E30613;background:#fff;color:#E30613;font-weight:700;cursor:pointer;font-size:14px;transition:all 0.2s}
         .sync-btn:hover{background:#E30613;color:#fff}
+        
         .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
         .modal-overlay.active{display:flex}
-        .modal{background:#fff;border-radius:20px;width:100%;max-width:500px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:modalIn 0.3s ease}
+        .modal{background:#fff;border-radius:20px;width:100%;max-width:500px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:modalIn 0.3s ease;transition:background 0.3s}
         @keyframes modalIn{from{opacity:0;transform:scale(0.95) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
-        .modal-header{padding:20px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:12px}
+        .modal-header{padding:20px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:12px;transition:border-color 0.3s}
         .modal-day-badge{width:40px;height:40px;background:#E30613;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
         .modal-title{flex:1;min-width:0}
-        .modal-title-week{font-size:11px;color:#666;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
-        .modal-title-topic{font-size:15px;font-weight:700;color:#333;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .modal-title-week{font-size:11px;color:#666;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;transition:color 0.3s}
+        .modal-title-topic{font-size:15px;font-weight:700;color:#333;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:color 0.3s}
         .modal-close{background:none;border:none;font-size:24px;color:#999;cursor:pointer;padding:4px 8px;line-height:1;transition:color 0.2s}
         .modal-close:hover{color:#333}
         .modal-body{padding:20px;flex:1;overflow-y:auto}
         .modal-textarea{width:100%;min-height:180px;padding:14px;border-radius:12px;border:2px solid #e5e7eb;background:#f9fafb;color:#333;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;line-height:1.5;transition:all 0.3s}
         .modal-textarea:focus{outline:none;border-color:#E30613;background:#fff;box-shadow:0 0 0 4px rgba(227,6,19,0.1)}
         .modal-textarea::placeholder{color:#999}
-        .modal-footer{padding:16px 20px;border-top:1px solid #f3f4f6;display:flex;gap:10px;align-items:center}
-        .modal-status{font-size:12px;color:#666;flex:1;display:flex;align-items:center;gap:6px}
+        .modal-footer{padding:16px 20px;border-top:1px solid #f3f4f6;display:flex;gap:10px;align-items:center;transition:border-color 0.3s}
+        .modal-status{font-size:12px;color:#666;flex:1;display:flex;align-items:center;gap:6px;transition:color 0.3s}
         .modal-status.saved{color:#10b981;font-weight:600}
         .modal-btn{padding:10px 20px;border-radius:10px;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s}
         .modal-btn-primary{background:#E30613;color:#fff}
@@ -96,11 +104,44 @@
         .modal-btn-danger:hover{background:#fecaca}
         .modal-btn-danger:disabled{background:#f3f4f6;color:#9ca3af;cursor:not-allowed}
         .weekend-note-hint{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border-radius:12px;padding:12px 16px;margin-top:16px;font-size:13px;text-align:left;border:1px dashed rgba(255,255,255,0.3)}
+
+        /* 🌙 ТЁМНАЯ ТЕМА */
+        body.dark { background: #121212; color: #e0e0e0; }
+        body.dark .header, body.dark .stat-card, body.dark .progress-container, body.dark .schedule-section, body.dark .sync-section, body.dark .modal { background: #1e1e1e; }
+        body.dark .header p, body.dark .stat-label, body.dark .progress-label, body.dark .schedule-week, body.dark .modal-title-week, body.dark .modal-status { color: #a0a0a0; }
+        body.dark .schedule-topic, body.dark .modal-title-topic { color: #e0e0e0; }
+        body.dark .schedule-item { border-bottom-color: #333; }
+        body.dark .schedule-item:hover { background: #2a2a2a; }
+        body.dark .schedule-item.today { background: #2c1515; }
+        body.dark .today-topic { background: #2a2a2a; color: #e0e0e0; }
+        body.dark .today-file { background: rgba(255,255,255,0.1); }
+        body.dark .today-notes { background: rgba(255,255,255,0.05); }
+        body.dark .today-notes-textarea, body.dark .modal-textarea { background: #2a2a2a; color: #e0e0e0; border-color: #444; }
+        body.dark .today-notes-textarea:focus, body.dark .modal-textarea:focus { background: #333; }
+        body.dark .today-notes-textarea::placeholder, body.dark .modal-textarea::placeholder { color: #666; }
+        body.dark .btn { background: #2a2a2a; color: #ff4d4d; }
+        body.dark .btn-success { background: #10b981; color: #fff; }
+        body.dark .btn-secondary { background: #444; color: #fff; }
+        body.dark .sync-btn { background: #2a2a2a; color: #ff4d4d; border-color: #ff4d4d; }
+        body.dark .sync-btn:hover { background: #ff4d4d; color: #fff; }
+        body.dark .modal-overlay { background: rgba(0,0,0,0.8); }
+        body.dark .modal-header, body.dark .modal-footer { border-color: #333; }
+        body.dark .modal-close { color: #a0a0a0; }
+        body.dark .modal-close:hover { color: #fff; }
+        body.dark .modal-btn-danger { background: #3a1a1a; color: #ff4d4d; }
+        body.dark .modal-btn-danger:hover { background: #5a2a2a; }
+        body.dark .modal-btn-danger:disabled { background: #333; color: #666; }
+        body.dark .progress-bar { background: #333; }
+        body.dark .stat-value { color: #ff4d4d; }
+        body.dark .weekend-note-hint { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
+        body.dark .schedule-check { border-color: #ff4d4d; }
+        body.dark .countdown { background: rgba(0,0,0,0.3); }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
+            <button class="theme-toggle" id="themeToggle" title="Переключить тему">🌙</button>
             <h1>💎 585GOLD Обучение</h1>
             <p>План отправки материалов в розницу</p>
         </div>
@@ -124,7 +165,7 @@
         <div class="sync-section">
             <div class="sync-title">🔄 Синхронизация устройств</div>
             <div class="sync-buttons">
-                <button class="sync-btn" onclick="exportProgress()"> Экспорт</button>
+                <button class="sync-btn" onclick="exportProgress()">📤 Экспорт</button>
                 <button class="sync-btn" onclick="importProgress()">📥 Импорт</button>
             </div>
             <p style="font-size:12px;color:#666;text-align:center;margin-top:10px">Скопируйте код с одного устройства и вставьте на другом</p>
@@ -162,7 +203,7 @@
     <div class="modal-overlay" id="importModal" onclick="closeImportModalOnOverlay(event)">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <div class="modal-title"><div class="modal-title-topic">📥 Импорт прогресса</div></div>
+                <div class="modal-title"><div class="modal-title-topic"> Импорт прогресса</div></div>
                 <button class="modal-close" onclick="closeImportModal()">&times;</button>
             </div>
             <div class="modal-body">
@@ -178,28 +219,35 @@
     <script>
         const START_DATE = new Date('2026-09-01');
         
-        // ОБНОВЛЁННОЕ РАСПИСАНИЕ: тренажёры разнесены для равномерной нагрузки
+        // Цветовая кодировка типов материалов
+        const typeColors = {
+            'theory': '#3b82f6',  // 🔵 Синий (Теория)
+            'test': '#8b5cf6',    // 🟣 Фиолетовый (Тесты)
+            'trainer': '#f59e0b', // 🟡 Жёлтый (Тренажёры/Игры)
+            'final': '#d946ef'    // 🟣 Малиновый (Финал)
+        };
+
         const PLAN = [
-            {week:1, day:'Вт', topic:'Знакомство + Стандарты обслуживания (12 этапов)', file:'Стандарты обслуживания.html', link:'Стандарты обслуживания.html'},
-            {week:1, day:'Ср', topic:'Речевая пластинка с акциями', file:'Речевая пластинка.html', link:'Речевая пластинка.html'},
-            {week:1, day:'Чт', topic:'Сервис с человеческим лицом + Вводный тест', file:'Сервис.html', link:'Сервис.html'},
-            {week:1, day:'Пт', topic:'«Можно» vs «Давайте»', file:'Можно vs Давайте.html', link:'Можно vs Давайте.html'},
-            {week:2, day:'Пн', topic:'Конверсия: 6 правил', file:'Конверсия.html', link:'Конверсия.html'},
-            {week:2, day:'Вт', topic:'Путь к успешной продаже (5 шагов)', file:'Путь к успешной продаже.html', link:'Путь к успешной продаже.html'},
-            {week:2, day:'Ср', topic:'Тренажёр: Диалоги', file:'dialog_trainer.html', link:'https://wetalsfinx.github.io/Test/dialog_trainer.html'},
-            {week:2, day:'Чт', topic:'Презентация украшений (ХПВ)', file:'Презентация.html', link:'Презентация.html'},
-            {week:2, day:'Пт', topic:'Предложение 2-го украшения (10 ситуаций)', file:'Предложение второго украшения.html', link:'Предложение второго украшения.html'},
-            {week:3, day:'Пн', topic:'Игра: Найди ошибку в диалоге', file:'error_finder.html', link:'https://wetalsfinx.github.io/Test/error_finder.html'},
-            {week:3, day:'Вт', topic:'Продажа золота (переориентация)', file:'Продажа золота.html', link:'Продажа золота.html'},
-            {week:3, day:'Ср', topic:'Работа с «Дорого»', file:'Дорого.html', link:'Дорого.html'},
-            {week:3, day:'Чт', topic:'Электронный каталог (5 ситуаций)', file:'Электронный каталог.html', link:'Электронный каталог.html'},
-            {week:3, day:'Пт', topic:'Тренажёр: Типы клиентов', file:'client_type_trainer.html', link:'https://wetalsfinx.github.io/Test/client_type_trainer.html'},
-            {week:4, day:'Пн', topic:'Альтернатива при отсутствии товара', file:'Альтернатива.html', link:'Альтернатива.html'},
-            {week:4, day:'Вт', topic:'Тренажёр: Допродажи (cross-sell)', file:'crosssell_trainer.html', link:'https://wetalsfinx.github.io/Test/crosssell_trainer.html'},
-            {week:4, day:'Ср', topic:'10 инструментов увеличения продаж', file:'Увеличение продаж.html', link:'Увеличение продаж.html'},
-            {week:4, day:'Чт', topic:'Инициатива в диалоге', file:'Инициатива.html', link:'Инициатива.html'},
-            {week:4, day:'Пт', topic:'Итоговая аттестация', file:'final_exam.html', link:'https://wetalsfinx.github.io/Test/final_exam.html'},
-            {week:5, day:'Пн', topic:'Финишная прямая + Лайфхаки', file:'Финишная прямая.html', link:'Финишная прямая.html'}
+            {week:1, day:'Вт', type:'theory', topic:'Знакомство + Стандарты обслуживания (12 этапов)', file:'Стандарты обслуживания.html', link:'Стандарты обслуживания.html'},
+            {week:1, day:'Ср', type:'theory', topic:'Речевая пластинка с акциями', file:'Речевая пластинка.html', link:'Речевая пластинка.html'},
+            {week:1, day:'Чт', type:'test', topic:'Сервис с человеческим лицом + Вводный тест', file:'Сервис.html', link:'Сервис.html'},
+            {week:1, day:'Пт', type:'theory', topic:'«Можно» vs «Давайте»', file:'Можно vs Давайте.html', link:'Можно vs Давайте.html'},
+            {week:2, day:'Пн', type:'theory', topic:'Конверсия: 6 правил', file:'Конверсия.html', link:'Конверсия.html'},
+            {week:2, day:'Вт', type:'theory', topic:'Путь к успешной продаже (5 шагов)', file:'Путь к успешной продаже.html', link:'Путь к успешной продаже.html'},
+            {week:2, day:'Ср', type:'trainer', topic:'Тренажёр: Диалоги', file:'dialog_trainer.html', link:'https://wetalsfinx.github.io/Test/dialog_trainer.html'},
+            {week:2, day:'Чт', type:'theory', topic:'Презентация украшений (ХПВ)', file:'Презентация.html', link:'Презентация.html'},
+            {week:2, day:'Пт', type:'theory', topic:'Предложение 2-го украшения (10 ситуаций)', file:'Предложение второго украшения.html', link:'Предложение второго украшения.html'},
+            {week:3, day:'Пн', type:'trainer', topic:'Игра: Найди ошибку в диалоге', file:'error_finder.html', link:'https://wetalsfinx.github.io/Test/error_finder.html'},
+            {week:3, day:'Вт', type:'theory', topic:'Продажа золота (переориентация)', file:'Продажа золота.html', link:'Продажа золота.html'},
+            {week:3, day:'Ср', type:'theory', topic:'Работа с «Дорого»', file:'Дорого.html', link:'Дорого.html'},
+            {week:3, day:'Чт', type:'theory', topic:'Электронный каталог (5 ситуаций)', file:'Электронный каталог.html', link:'Электронный каталог.html'},
+            {week:3, day:'Пт', type:'trainer', topic:'Тренажёр: Типы клиентов', file:'client_type_trainer.html', link:'https://wetalsfinx.github.io/Test/client_type_trainer.html'},
+            {week:4, day:'Пн', type:'theory', topic:'Альтернатива при отсутствии товара', file:'Альтернатива.html', link:'Альтернатива.html'},
+            {week:4, day:'Вт', type:'trainer', topic:'Тренажёр: Допродажи (cross-sell)', file:'crosssell_trainer.html', link:'https://wetalsfinx.github.io/Test/crosssell_trainer.html'},
+            {week:4, day:'Ср', type:'theory', topic:'10 инструментов увеличения продаж', file:'Увеличение продаж.html', link:'Увеличение продаж.html'},
+            {week:4, day:'Чт', type:'theory', topic:'Инициатива в диалоге', file:'Инициатива.html', link:'Инициатива.html'},
+            {week:4, day:'Пт', type:'test', topic:'Итоговая аттестация', file:'final_exam.html', link:'https://wetalsfinx.github.io/Test/final_exam.html'},
+            {week:5, day:'Пн', type:'final', topic:'Финишная прямая + Лайфхаки', file:'Финишная прямая.html', link:'Финишная прямая.html'}
         ];
         
         let completedDays = JSON.parse(localStorage.getItem('completedDays') || '[]');
@@ -232,10 +280,8 @@
             const jsonString = JSON.stringify(data);
             const base64 = btoa(unescape(encodeURIComponent(jsonString)));
             navigator.clipboard.writeText(base64).then(() => {
-                alert('✅ Код прогресса скопирован!\n\nТеперь отправьте его себе в Telegram (Избранное) или WhatsApp, откройте на другом устройстве, нажмите "Импорт" и вставьте этот код.');
-            }).catch(() => {
-                prompt('Скопируйте этот код вручную:', base64);
-            });
+                alert('✅ Код прогресса скопирован!\n\nОтправьте его себе в Telegram/WhatsApp, откройте на другом устройстве, нажмите "Импорт" и вставьте.');
+            }).catch(() => { prompt('Скопируйте этот код вручную:', base64); });
         }
 
         function importProgress() {
@@ -257,16 +303,53 @@
                     render();
                     closeImportModal();
                     alert('✅ Прогресс и заметки успешно синхронизированы!');
-                } else {
-                    alert('❌ Неверный формат кода.');
-                }
-            } catch (e) {
-                alert('❌ Ошибка при чтении кода. Проверьте, что вы скопировали его полностью.');
-            }
+                } else { alert('❌ Неверный формат кода.'); }
+            } catch (e) { alert('❌ Ошибка при чтении кода.'); }
         }
 
         function closeImportModal() { document.getElementById('importModal').classList.remove('active'); }
         function closeImportModalOnOverlay(event) { if (event.target.id === 'importModal') closeImportModal(); }
+        
+        // ⏰ ТАЙМЕР ОБРАТНОГО ОТСЧЁТА
+        function getNextMaterialDate() {
+            const today = new Date();
+            let target = new Date(today);
+            target.setHours(9, 0, 0, 0);
+
+            if (isWeekend(today)) {
+                const daysUntilMonday = (8 - today.getDay()) % 7 || 7;
+                target.setDate(today.getDate() + daysUntilMonday);
+            } else {
+                let nextDay = new Date(today);
+                nextDay.setDate(today.getDate() + 1);
+                while (isWeekend(nextDay)) nextDay.setDate(nextDay.getDate() + 1);
+                target = nextDay;
+                target.setHours(9, 0, 0, 0);
+            }
+            return target;
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const target = getNextMaterialDate();
+            const diff = target - now;
+            const el = document.getElementById('countdown');
+            if (!el) return;
+
+            if (diff <= 0) {
+                el.textContent = '🚀 Пора отправлять материал!';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            let text = '';
+            if (days > 0) text += `${days} дн. `;
+            text += `${hours} ч. ${minutes} мин.`;
+            el.textContent = `⏰ До следующего материала: ${text}`;
+        }
         
         function render() {
             const today = new Date();
@@ -288,9 +371,10 @@
                         <div class="today-label">📤 ОТПРАВИТЬ СЕГОДНЯ</div>
                         <div class="today-date">${formatDate(today)}</div>
                         <div class="today-week">Неделя ${currentPlan.week} • День ${currentDayIndex + 1} из ${PLAN.length}</div>
+                        <div class="countdown" id="countdown"> Загрузка таймера...</div>
                         <div class="today-topic">${currentPlan.topic}</div>
                         <div class="today-file">📄 ${currentPlan.file}</div>
-                        <a href="${currentPlan.link}" target="_blank" class="btn btn-link" style="width:100%;margin-bottom:10px"> Открыть материал</a>
+                        <a href="${currentPlan.link}" target="_blank" class="btn btn-link" style="width:100%;margin-bottom:10px">📖 Открыть материал</a>
                         <div class="today-actions">
                             <button class="btn btn-success" id="markDone" onclick="markTodayDone()" ${isDone ? 'disabled' : ''}>${isDone ? '✅ Уже отправлено' : '✅ Отметить как отправлено'}</button>
                             <button class="btn btn-secondary" onclick="showNextDay()">Что дальше? →</button>
@@ -301,6 +385,7 @@
                             <div class="notes-status" id="todayNotesStatus">${currentNote ? '<span class="saved">Сохранено</span>' : '<span>Автосохранение включено</span>'}</div>
                         </div>
                     </div>`;
+                updateCountdown();
             }
             const progress = (completedDays.length / PLAN.length) * 100;
             document.getElementById('progressFill').style.width = progress + '%';
@@ -321,8 +406,11 @@
                 const isToday = idx === currentDayIndex && !isWeekend(today);
                 const hasNote = !!dayNotes[idx];
                 const notePreview = hasNote ? escapeHtml(getNotePreview(idx)) : '';
+                const color = typeColors[item.type] || '#E30613';
+                const badgeStyle = (!isDone && !isToday) ? `background:${color}` : '';
+                
                 return `<div class="schedule-item ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}" onclick="openNoteModal(${idx})">
-                    <div class="schedule-day ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}">${item.day}</div>
+                    <div class="schedule-day ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}" style="${badgeStyle}">${item.day}</div>
                     <div class="schedule-info">
                         <div class="schedule-week">Неделя ${item.week}</div>
                         <div class="schedule-topic">${item.topic}</div>
@@ -450,6 +538,20 @@
                 updateModalStatus(); renderScheduleList();
             }
         }
+
+        // 🌙 ПЕРЕКЛЮЧЕНИЕ ТЕМЫ
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark');
+            themeToggle.textContent = '☀️';
+        }
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            const isDark = document.body.classList.contains('dark');
+            themeToggle.textContent = isDark ? '☀️' : '🌙';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
         
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
@@ -459,6 +561,7 @@
         });
         
         render();
+        setInterval(updateCountdown, 60000); // Обновление таймера каждую минуту
         if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js');
     </script>
 </body>
