@@ -8,15 +8,12 @@
     <meta name="theme-color" content="#E30613">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-        
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Inter',sans-serif;background:#f5f5f5;min-height:100vh;padding:16px}
         .container{max-width:600px;margin:0 auto}
-        
         .header{background:#fff;border-radius:20px;padding:20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);text-align:center;border-top:4px solid #E30613}
         .header h1{font-size:24px;font-weight:800;color:#E30613;margin-bottom:4px}
         .header p{font-size:13px;color:#666;font-weight:500}
-        
         .today-hero{background:linear-gradient(135deg,#E30613,#c41c2a);border-radius:24px;padding:28px;margin-bottom:20px;box-shadow:0 12px 40px rgba(196,30,58,0.3);color:#fff}
         .today-label{font-size:11px;text-transform:uppercase;font-weight:700;opacity:0.9;margin-bottom:8px;letter-spacing:1px;background:rgba(255,255,255,0.2);display:inline-block;padding:6px 12px;border-radius:8px}
         .today-date{font-size:18px;font-weight:700;margin:12px 0 4px}
@@ -31,34 +28,23 @@
         .btn-success:disabled{background:#6b7280;cursor:not-allowed}
         .btn-secondary{background:rgba(255,255,255,0.2);color:#fff}
         .btn-link{background:#fff;color:#E30613;text-decoration:none}
-        
         .today-notes{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border-radius:16px;padding:14px;border:1px solid rgba(255,255,255,0.2)}
         .today-notes-label{font-size:12px;font-weight:700;color:#fff;margin-bottom:8px;display:flex;align-items:center;gap:6px;letter-spacing:0.5px;text-transform:uppercase}
-        .today-notes-textarea{
-            width:100%;min-height:80px;padding:12px;border-radius:10px;
-            border:2px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.95);
-            color:#333;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;
-            line-height:1.5;transition:border-color 0.3s;
-        }
+        .today-notes-textarea{width:100%;min-height:80px;padding:12px;border-radius:10px;border:2px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.95);color:#333;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;line-height:1.5;transition:border-color 0.3s}
         .today-notes-textarea:focus{outline:none;border-color:#fff;background:#fff}
         .today-notes-textarea::placeholder{color:#999}
         .notes-status{font-size:11px;color:rgba(255,255,255,0.9);margin-top:6px;display:flex;align-items:center;gap:6px;min-height:16px}
         .notes-status.saved::before{content:'✓';color:#10b981;font-weight:700}
-        .notes-status.saving::before{content:'';display:inline-block;width:10px;height:10px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite}
-        @keyframes spin{to{transform:rotate(360deg)}}
-        
         .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
         .stat-card{background:#fff;border-radius:16px;padding:16px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
         .stat-value{font-size:26px;font-weight:800;color:#E30613;margin-bottom:4px}
         .stat-label{font-size:11px;color:#666;font-weight:600;text-transform:uppercase}
-        
         .progress-container{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
         .progress-header{display:flex;justify-content:space-between;margin-bottom:12px}
         .progress-label{font-size:13px;font-weight:600;color:#333}
         .progress-percent{font-size:13px;font-weight:700;color:#E30613}
         .progress-bar{background:#e5e7eb;border-radius:12px;height:12px;overflow:hidden}
         .progress-fill{background:linear-gradient(90deg,#10b981,#059669);height:100%;border-radius:12px;transition:width 0.8s ease}
-        
         .schedule-section{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
         .schedule-title{font-size:16px;font-weight:700;color:#E30613;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #E30613}
         .schedule-item{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid #f3f4f6;cursor:pointer;transition:background 0.2s;border-radius:8px}
@@ -76,23 +62,21 @@
         .schedule-check{width:24px;height:24px;border:2px solid #E30613;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-left:8px}
         .schedule-check.checked{background:#10b981;border-color:#10b981}
         .schedule-check.checked::after{content:'✓';color:#fff;font-size:14px;font-weight:700}
-        
         @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(227,6,19,0.4)}70%{box-shadow:0 0 0 10px rgba(227,6,19,0)}100%{box-shadow:0 0 0 0 rgba(227,6,19,0)}}
-        
         .weekend-card{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-radius:20px;padding:28px;margin-bottom:20px;text-align:center}
         .weekend-card h2{font-size:22px;font-weight:800;margin-bottom:8px}
         .weekend-card p{font-size:14px;opacity:0.9}
         
-        .modal-overlay{
-            position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);
-            display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;
-        }
+        /* Стили для блока синхронизации */
+        .sync-section{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08);border:2px dashed #E30613}
+        .sync-title{font-size:16px;font-weight:700;color:#E30613;margin-bottom:12px;text-align:center}
+        .sync-buttons{display:flex;gap:10px}
+        .sync-btn{flex:1;padding:12px;border-radius:12px;border:2px solid #E30613;background:#fff;color:#E30613;font-weight:700;cursor:pointer;font-size:14px;transition:all 0.2s}
+        .sync-btn:hover{background:#E30613;color:#fff}
+        
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
         .modal-overlay.active{display:flex}
-        .modal{
-            background:#fff;border-radius:20px;width:100%;max-width:500px;max-height:85vh;
-            display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.3);
-            animation:modalIn 0.3s ease;
-        }
+        .modal{background:#fff;border-radius:20px;width:100%;max-width:500px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:modalIn 0.3s ease}
         @keyframes modalIn{from{opacity:0;transform:scale(0.95) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
         .modal-header{padding:20px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:12px}
         .modal-day-badge{width:40px;height:40px;background:#E30613;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
@@ -102,24 +86,18 @@
         .modal-close{background:none;border:none;font-size:24px;color:#999;cursor:pointer;padding:4px 8px;line-height:1;transition:color 0.2s}
         .modal-close:hover{color:#333}
         .modal-body{padding:20px;flex:1;overflow-y:auto}
-        .modal-textarea{
-            width:100%;min-height:180px;padding:14px;border-radius:12px;
-            border:2px solid #e5e7eb;background:#f9fafb;color:#333;font-size:14px;
-            font-family:'Inter',sans-serif;resize:vertical;line-height:1.5;transition:all 0.3s;
-        }
+        .modal-textarea{width:100%;min-height:180px;padding:14px;border-radius:12px;border:2px solid #e5e7eb;background:#f9fafb;color:#333;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;line-height:1.5;transition:all 0.3s}
         .modal-textarea:focus{outline:none;border-color:#E30613;background:#fff;box-shadow:0 0 0 4px rgba(227,6,19,0.1)}
         .modal-textarea::placeholder{color:#999}
         .modal-footer{padding:16px 20px;border-top:1px solid #f3f4f6;display:flex;gap:10px;align-items:center}
         .modal-status{font-size:12px;color:#666;flex:1;display:flex;align-items:center;gap:6px}
         .modal-status.saved{color:#10b981;font-weight:600}
-        .modal-status.saving{color:#666}
         .modal-btn{padding:10px 20px;border-radius:10px;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s}
         .modal-btn-primary{background:#E30613;color:#fff}
         .modal-btn-primary:hover{background:#c41c2a}
         .modal-btn-danger{background:#fee2e2;color:#dc2626}
         .modal-btn-danger:hover{background:#fecaca}
         .modal-btn-danger:disabled{background:#f3f4f6;color:#9ca3af;cursor:not-allowed}
-        
         .weekend-note-hint{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border-radius:12px;padding:12px 16px;margin-top:16px;font-size:13px;text-align:left;border:1px dashed rgba(255,255,255,0.3)}
     </style>
 </head>
@@ -133,18 +111,9 @@
         <div id="todayContainer"></div>
         
         <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value" id="statCompleted">0</div>
-                <div class="stat-label">Пройдено</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="statRemaining">20</div>
-                <div class="stat-label">Осталось</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="statPercent">0%</div>
-                <div class="stat-label">Прогресс</div>
-            </div>
+            <div class="stat-card"><div class="stat-value" id="statCompleted">0</div><div class="stat-label">Пройдено</div></div>
+            <div class="stat-card"><div class="stat-value" id="statRemaining">20</div><div class="stat-label">Осталось</div></div>
+            <div class="stat-card"><div class="stat-value" id="statPercent">0%</div><div class="stat-label">Прогресс</div></div>
         </div>
         
         <div class="progress-container">
@@ -152,9 +121,17 @@
                 <span class="progress-label">Общий прогресс обучения</span>
                 <span class="progress-percent" id="progressPercent">0/20 дней</span>
             </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width:0%"></div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        </div>
+
+        <!-- БЛОК СИНХРОНИЗАЦИИ -->
+        <div class="sync-section">
+            <div class="sync-title">🔄 Синхронизация устройств</div>
+            <div class="sync-buttons">
+                <button class="sync-btn" onclick="exportProgress()">📤 Экспорт</button>
+                <button class="sync-btn" onclick="importProgress()">📥 Импорт</button>
             </div>
+            <p style="font-size:12px;color:#666;text-align:center;margin-top:10px">Скопируйте код с одного устройства и вставьте на другом</p>
         </div>
         
         <div class="schedule-section">
@@ -165,6 +142,7 @@
         <button class="btn" onclick="resetProgress()" style="background:#6b7280;color:#fff;width:100%">🔄 Сбросить весь прогресс</button>
     </div>
     
+    <!-- Модальное окно для заметок -->
     <div class="modal-overlay" id="noteModal" onclick="closeNoteModalOnOverlay(event)">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -176,12 +154,7 @@
                 <button class="modal-close" onclick="closeNoteModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <textarea 
-                    class="modal-textarea" 
-                    id="modalTextarea" 
-                    placeholder="Напишите ваши заметки, наблюдения, фидбек от продавцов..."
-                    oninput="onModalTextareaInput()"
-                ></textarea>
+                <textarea class="modal-textarea" id="modalTextarea" placeholder="Напишите ваши заметки, наблюдения, фидбек от продавцов..." oninput="onModalTextareaInput()"></textarea>
             </div>
             <div class="modal-footer">
                 <div class="modal-status" id="modalStatus"></div>
@@ -190,11 +163,26 @@
             </div>
         </div>
     </div>
+
+    <!-- Модальное окно для Импорта -->
+    <div class="modal-overlay" id="importModal" onclick="closeImportModalOnOverlay(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title"><div class="modal-title-topic">📥 Импорт прогресса</div></div>
+                <button class="modal-close" onclick="closeImportModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:14px;color:#666;margin-bottom:12px">Вставьте код, который вы скопировали с другого устройства:</p>
+                <textarea class="modal-textarea" id="importTextarea" placeholder="Вставьте код синхронизации здесь..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-primary" style="width:100%" onclick="processImport()">Применить прогресс</button>
+            </div>
+        </div>
+    </div>
     
     <script>
-        // Старт: 1 сентября 2026 (Вторник)
         const START_DATE = new Date('2026-09-01');
-        
         const PLAN = [
             {week:1, day:'Вт', topic:'Знакомство + Стандарты обслуживания (12 этапов)', file:'Стандарты обслуживания.html', link:'Стандарты обслуживания.html'},
             {week:1, day:'Ср', topic:'Речевая пластинка с акциями', file:'Речевая пластинка.html', link:'Речевая пластинка.html'},
@@ -223,43 +211,77 @@
         let currentModalIndex = null;
         let saveTimeout = null;
         
-        function isWeekend(date) {
-            const day = date.getDay();
-            return day === 0 || day === 6;
-        }
-        
+        function isWeekend(date) { const day = date.getDay(); return day === 0 || day === 6; }
         function countBusinessDays(start, end) {
-            let count = 0;
-            let current = new Date(start);
-            while (current <= end) {
-                if (!isWeekend(current)) count++;
-                current.setDate(current.getDate() + 1);
-            }
+            let count = 0, current = new Date(start);
+            while (current <= end) { if (!isWeekend(current)) count++; current.setDate(current.getDate() + 1); }
             return count;
         }
-        
-        function formatDate(date) {
-            return date.toLocaleDateString('ru-RU', {day:'numeric',month:'long'});
-        }
-        
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        function getNotePreview(idx) {
-            const note = dayNotes[idx];
-            if (!note) return '';
-            return note.length > 60 ? note.substring(0, 60) + '...' : note;
-        }
-        
+        function formatDate(date) { return date.toLocaleDateString('ru-RU', {day:'numeric',month:'long'}); }
+        function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+        function getNotePreview(idx) { const note = dayNotes[idx]; if (!note) return ''; return note.length > 60 ? note.substring(0, 60) + '...' : note; }
         function getCurrentDayIndex() {
             const today = new Date();
             if (isWeekend(today)) return -1;
-            const businessDayCount = countBusinessDays(START_DATE, today);
-            return Math.min(Math.max(businessDayCount - 1, 0), PLAN.length - 1);
+            return Math.min(Math.max(countBusinessDays(START_DATE, today) - 1, 0), PLAN.length - 1);
         }
+        
+        function saveToLocal() {
+            localStorage.setItem('completedDays', JSON.stringify(completedDays));
+            localStorage.setItem('dayNotes', JSON.stringify(dayNotes));
+        }
+
+        // --- ФУНКЦИИ ЭКСПОРТА / ИМПОРТА ---
+        function exportProgress() {
+            const data = { completedDays, dayNotes };
+            const jsonString = JSON.stringify(data);
+            // Используем encodeURIComponent для корректной работы с русскими символами в Base64
+            const base64 = btoa(unescape(encodeURIComponent(jsonString)));
+            
+            navigator.clipboard.writeText(base64).then(() => {
+                alert('✅ Код прогресса скопирован!\n\nТеперь отправьте его себе в Telegram (Избранное) или WhatsApp, откройте на другом устройстве, нажмите "Импорт" и вставьте этот код.');
+            }).catch(() => {
+                // Запасной вариант, если браузер блокирует доступ к буферу обмена
+                prompt('Скопируйте этот код вручную (нажмите Ctrl+C или зажмите на телефоне):', base64);
+            });
+        }
+
+        function importProgress() {
+            document.getElementById('importModal').classList.add('active');
+            document.getElementById('importTextarea').value = '';
+            setTimeout(() => document.getElementById('importTextarea').focus(), 100);
+        }
+
+        function processImport() {
+            const base64 = document.getElementById('importTextarea').value.trim();
+            if (!base64) { alert('⚠️ Вставьте код синхронизации!'); return; }
+            
+            try {
+                const jsonString = decodeURIComponent(escape(atob(base64)));
+                const data = JSON.parse(jsonString);
+                
+                if (data.completedDays && data.dayNotes) {
+                    completedDays = data.completedDays;
+                    dayNotes = data.dayNotes;
+                    saveToLocal();
+                    render();
+                    closeImportModal();
+                    alert('✅ Прогресс и заметки успешно синхронизированы!');
+                } else {
+                    alert('❌ Неверный формат кода.');
+                }
+            } catch (e) {
+                alert('❌ Ошибка при чтении кода. Проверьте, что вы скопировали его полностью (от начала до конца).');
+            }
+        }
+
+        function closeImportModal() {
+            document.getElementById('importModal').classList.remove('active');
+        }
+        function closeImportModalOnOverlay(event) {
+            if (event.target.id === 'importModal') closeImportModal();
+        }
+        // ----------------------------------
         
         function render() {
             const today = new Date();
@@ -271,22 +293,12 @@
                 nextMonday.setDate(today.getDate() + daysUntilMonday);
                 const nextDayIndex = Math.min(countBusinessDays(START_DATE, nextMonday) - 1, PLAN.length - 1);
                 const nextPlan = PLAN[nextDayIndex];
-                
-                todayContainer.innerHTML = `
-                    <div class="weekend-card">
-                        <h2>🎉 Выходной день!</h2>
-                        <p>Отдыхайте! Следующая отправка в понедельник.</p>
-                        <div class="weekend-note-hint">
-                            💡 <strong>Совет:</strong> можете заранее подготовить заметки к следующему материалу — <em>${escapeHtml(nextPlan.topic)}</em>
-                        </div>
-                    </div>
-                `;
+                todayContainer.innerHTML = `<div class="weekend-card"><h2>🎉 Выходной день!</h2><p>Отдыхайте! Следующая отправка в понедельник.</p><div class="weekend-note-hint">💡 <strong>Совет:</strong> можете заранее подготовить заметки к следующему материалу — <em>${escapeHtml(nextPlan.topic)}</em></div></div>`;
             } else {
                 const currentDayIndex = getCurrentDayIndex();
                 const currentPlan = PLAN[currentDayIndex];
                 const isDone = completedDays.includes(currentDayIndex);
                 const currentNote = dayNotes[currentDayIndex] || '';
-                
                 todayContainer.innerHTML = `
                     <div class="today-hero">
                         <div class="today-label">📤 ОТПРАВИТЬ СЕГОДНЯ</div>
@@ -296,25 +308,15 @@
                         <div class="today-file">📄 ${currentPlan.file}</div>
                         <a href="${currentPlan.link}" target="_blank" class="btn btn-link" style="width:100%;margin-bottom:10px">📖 Открыть материал</a>
                         <div class="today-actions">
-                            <button class="btn btn-success" id="markDone" onclick="markTodayDone()" ${isDone ? 'disabled' : ''}>
-                                ${isDone ? '✅ Уже отправлено' : '✅ Отметить как отправлено'}
-                            </button>
+                            <button class="btn btn-success" id="markDone" onclick="markTodayDone()" ${isDone ? 'disabled' : ''}>${isDone ? '✅ Уже отправлено' : '✅ Отметить как отправлено'}</button>
                             <button class="btn btn-secondary" onclick="showNextDay()">Что дальше? →</button>
                         </div>
                         <div class="today-notes">
                             <div class="today-notes-label">📝 Заметки на сегодня</div>
-                            <textarea 
-                                class="today-notes-textarea" 
-                                id="todayNotesTextarea" 
-                                placeholder="Запишите наблюдения, фидбек продавцов, идеи на будущее..."
-                                oninput="onTodayNotesInput()"
-                            >${escapeHtml(currentNote)}</textarea>
-                            <div class="notes-status" id="todayNotesStatus">
-                                ${currentNote ? '<span class="saved">Сохранено</span>' : '<span>Автосохранение включено</span>'}
-                            </div>
+                            <textarea class="today-notes-textarea" id="todayNotesTextarea" placeholder="Запишите наблюдения, фидбек продавцов..." oninput="onTodayNotesInput()">${escapeHtml(currentNote)}</textarea>
+                            <div class="notes-status" id="todayNotesStatus">${currentNote ? '<span class="saved">Сохранено</span>' : '<span>Автосохранение включено</span>'}</div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             }
             
             const progress = (completedDays.length / PLAN.length) * 100;
@@ -323,7 +325,6 @@
             document.getElementById('statCompleted').textContent = completedDays.length;
             document.getElementById('statRemaining').textContent = PLAN.length - completedDays.length;
             document.getElementById('statPercent').textContent = Math.round(progress) + '%';
-            
             renderScheduleList();
         }
         
@@ -332,79 +333,56 @@
             const today = new Date();
             const businessDayCount = countBusinessDays(START_DATE, today);
             const currentDayIndex = isWeekend(today) ? -1 : businessDayCount - 1;
-            
             scheduleContainer.innerHTML = PLAN.map((item, idx) => {
                 const isDone = completedDays.includes(idx);
                 const isToday = idx === currentDayIndex && !isWeekend(today);
                 const hasNote = !!dayNotes[idx];
                 const notePreview = hasNote ? escapeHtml(getNotePreview(idx)) : '';
-                
-                return `
-                    <div class="schedule-item ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}" onclick="openNoteModal(${idx})">
-                        <div class="schedule-day ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}">${item.day}</div>
-                        <div class="schedule-info">
-                            <div class="schedule-week">Неделя ${item.week}</div>
-                            <div class="schedule-topic">${item.topic}</div>
-                            ${hasNote ? `<div style="font-size:11px;color:#666;margin-top:4px;font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📝 ${notePreview}</div>` : ''}
-                        </div>
-                        ${hasNote ? '<div class="schedule-note-icon" title="Есть заметка">📝</div>' : ''}
-                        <div class="schedule-check ${isDone ? 'checked' : ''}" onclick="toggleDay(${idx}, event)"></div>
+                return `<div class="schedule-item ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}" onclick="openNoteModal(${idx})">
+                    <div class="schedule-day ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}">${item.day}</div>
+                    <div class="schedule-info">
+                        <div class="schedule-week">Неделя ${item.week}</div>
+                        <div class="schedule-topic">${item.topic}</div>
+                        ${hasNote ? `<div style="font-size:11px;color:#666;margin-top:4px;font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📝 ${notePreview}</div>` : ''}
                     </div>
-                `;
+                    ${hasNote ? '<div class="schedule-note-icon" title="Есть заметка">📝</div>' : ''}
+                    <div class="schedule-check ${isDone ? 'checked' : ''}" onclick="toggleDay(${idx}, event)"></div>
+                </div>`;
             }).join('');
         }
         
         function toggleDay(idx, event) {
             event.stopPropagation();
-            if(completedDays.includes(idx)) {
-                completedDays = completedDays.filter(i => i !== idx);
-            } else {
-                completedDays.push(idx);
-            }
-            localStorage.setItem('completedDays', JSON.stringify(completedDays));
-            render();
+            if(completedDays.includes(idx)) completedDays = completedDays.filter(i => i !== idx);
+            else completedDays.push(idx);
+            saveToLocal(); render();
         }
         
         function markTodayDone() {
             const today = new Date();
             if (isWeekend(today)) return;
-            
             const currentDayIndex = getCurrentDayIndex();
-            
             if(!completedDays.includes(currentDayIndex)) {
                 completedDays.push(currentDayIndex);
-                localStorage.setItem('completedDays', JSON.stringify(completedDays));
-                render();
+                saveToLocal(); render();
                 alert('✅ Отлично! Материал отправлен! Так держать!');
             }
         }
         
         function showNextDay() {
             const today = new Date();
-            if (isWeekend(today)) {
-                alert('🎉 Сегодня выходной! Следующая отправка в понедельник.');
-                return;
-            }
-            
+            if (isWeekend(today)) { alert('🎉 Сегодня выходной! Следующая отправка в понедельник.'); return; }
             const businessDayCount = countBusinessDays(START_DATE, today);
             const nextDayIndex = Math.min(businessDayCount, PLAN.length - 1);
             const nextPlan = PLAN[nextDayIndex];
-            
-            if (nextDayIndex >= PLAN.length - 1 && completedDays.length >= PLAN.length - 1) {
-                alert('🏆 Поздравляем! Вы прошли всё обучение!');
-                return;
-            }
-            
+            if (nextDayIndex >= PLAN.length - 1 && completedDays.length >= PLAN.length - 1) { alert('🏆 Поздравляем! Вы прошли всё обучение!'); return; }
             alert(`📅 ЗАВТРА:\n\n${nextPlan.topic}\n\n📄 Файл: ${nextPlan.file}\n\nНеделя ${nextPlan.week}`);
         }
         
         function resetProgress() {
             if(confirm('⚠️ Сбросить весь прогресс и все заметки?')) {
-                completedDays = [];
-                dayNotes = {};
-                localStorage.setItem('completedDays', JSON.stringify(completedDays));
-                localStorage.setItem('dayNotes', JSON.stringify(dayNotes));
-                render();
+                completedDays = []; dayNotes = {};
+                saveToLocal(); render();
                 alert('Прогресс и заметки сброшены');
             }
         }
@@ -413,23 +391,14 @@
             const textarea = document.getElementById('todayNotesTextarea');
             const status = document.getElementById('todayNotesStatus');
             const currentDayIndex = getCurrentDayIndex();
-            
             if (currentDayIndex === -1) return;
-            
-            status.className = 'notes-status saving';
             status.innerHTML = '<span>Сохранение...</span>';
-            
             clearTimeout(saveTimeout);
             saveTimeout = setTimeout(() => {
                 const text = textarea.value.trim();
-                if (text) {
-                    dayNotes[currentDayIndex] = text;
-                } else {
-                    delete dayNotes[currentDayIndex];
-                }
-                localStorage.setItem('dayNotes', JSON.stringify(dayNotes));
-                status.className = 'notes-status saved';
-                status.innerHTML = '<span>Сохранено</span>';
+                if (text) dayNotes[currentDayIndex] = text; else delete dayNotes[currentDayIndex];
+                saveToLocal();
+                status.innerHTML = '<span class="saved">Сохранено</span>';
                 renderScheduleList();
             }, 500);
         }
@@ -437,21 +406,14 @@
         function openNoteModal(idx) {
             currentModalIndex = idx;
             const plan = PLAN[idx];
-            
             document.getElementById('modalDayBadge').textContent = plan.day;
             document.getElementById('modalWeek').textContent = `Неделя ${plan.week}`;
             document.getElementById('modalTopic').textContent = plan.topic;
             document.getElementById('modalTextarea').value = dayNotes[idx] || '';
-            
-            updateModalStatus();
-            updateClearButton();
-            
+            updateModalStatus(); updateClearButton();
             document.getElementById('noteModal').classList.add('active');
             document.body.style.overflow = 'hidden';
-            
-            setTimeout(() => {
-                document.getElementById('modalTextarea').focus();
-            }, 300);
+            setTimeout(() => { document.getElementById('modalTextarea').focus(); }, 300);
         }
         
         function closeNoteModal() {
@@ -460,49 +422,31 @@
             currentModalIndex = null;
             renderScheduleList();
         }
-        
-        function closeNoteModalOnOverlay(event) {
-            if (event.target.id === 'noteModal') {
-                closeNoteModal();
-            }
-        }
+        function closeNoteModalOnOverlay(event) { if (event.target.id === 'noteModal') closeNoteModal(); }
         
         function onModalTextareaInput() {
             if (currentModalIndex === null) return;
-            
             const textarea = document.getElementById('modalTextarea');
             const status = document.getElementById('modalStatus');
-            
-            status.className = 'modal-status saving';
             status.innerHTML = '💾 Сохранение...';
             updateClearButton();
-            
             clearTimeout(saveTimeout);
             saveTimeout = setTimeout(() => {
                 const text = textarea.value.trim();
-                if (text) {
-                    dayNotes[currentModalIndex] = text;
-                } else {
-                    delete dayNotes[currentModalIndex];
-                }
-                localStorage.setItem('dayNotes', JSON.stringify(dayNotes));
-                updateModalStatus();
+                if (text) dayNotes[currentModalIndex] = text; else delete dayNotes[currentModalIndex];
+                saveToLocal(); updateModalStatus();
             }, 400);
         }
         
         function updateModalStatus() {
             const status = document.getElementById('modalStatus');
             if (currentModalIndex === null) return;
-            
             const hasNote = !!dayNotes[currentModalIndex];
             if (hasNote) {
                 const text = dayNotes[currentModalIndex];
                 const words = text.split(/\s+/).filter(w => w).length;
-                const chars = text.length;
-                status.className = 'modal-status saved';
-                status.innerHTML = `✓ Сохранено • ${words} слов, ${chars} симв.`;
+                status.innerHTML = `✓ Сохранено • ${words} слов`;
             } else {
-                status.className = 'modal-status';
                 status.innerHTML = 'Автосохранение включено';
             }
             updateClearButton();
@@ -515,29 +459,24 @@
         }
         
         function clearCurrentNote() {
-            if (currentModalIndex === null) return;
-            if (!dayNotes[currentModalIndex]) return;
-            
+            if (currentModalIndex === null || !dayNotes[currentModalIndex]) return;
             if (confirm('Очистить заметку для этого дня?')) {
                 delete dayNotes[currentModalIndex];
-                localStorage.setItem('dayNotes', JSON.stringify(dayNotes));
+                saveToLocal();
                 document.getElementById('modalTextarea').value = '';
-                updateModalStatus();
-                renderScheduleList();
+                updateModalStatus(); renderScheduleList();
             }
         }
         
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && document.getElementById('noteModal').classList.contains('active')) {
-                closeNoteModal();
+            if (e.key === 'Escape') {
+                if (document.getElementById('noteModal').classList.contains('active')) closeNoteModal();
+                if (document.getElementById('importModal').classList.contains('active')) closeImportModal();
             }
         });
         
         render();
-        
-        if('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('service-worker.js');
-        }
+        if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js');
     </script>
 </body>
 </html>
