@@ -66,14 +66,11 @@
         .weekend-card{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-radius:20px;padding:28px;margin-bottom:20px;text-align:center}
         .weekend-card h2{font-size:22px;font-weight:800;margin-bottom:8px}
         .weekend-card p{font-size:14px;opacity:0.9}
-        
-        /* Стили для блока синхронизации */
         .sync-section{background:#fff;border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.08);border:2px dashed #E30613}
         .sync-title{font-size:16px;font-weight:700;color:#E30613;margin-bottom:12px;text-align:center}
         .sync-buttons{display:flex;gap:10px}
         .sync-btn{flex:1;padding:12px;border-radius:12px;border:2px solid #E30613;background:#fff;color:#E30613;font-weight:700;cursor:pointer;font-size:14px;transition:all 0.2s}
         .sync-btn:hover{background:#E30613;color:#fff}
-        
         .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
         .modal-overlay.active{display:flex}
         .modal{background:#fff;border-radius:20px;width:100%;max-width:500px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:modalIn 0.3s ease}
@@ -124,11 +121,10 @@
             <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
         </div>
 
-        <!-- БЛОК СИНХРОНИЗАЦИИ -->
         <div class="sync-section">
             <div class="sync-title">🔄 Синхронизация устройств</div>
             <div class="sync-buttons">
-                <button class="sync-btn" onclick="exportProgress()">📤 Экспорт</button>
+                <button class="sync-btn" onclick="exportProgress()"> Экспорт</button>
                 <button class="sync-btn" onclick="importProgress()">📥 Импорт</button>
             </div>
             <p style="font-size:12px;color:#666;text-align:center;margin-top:10px">Скопируйте код с одного устройства и вставьте на другом</p>
@@ -142,7 +138,6 @@
         <button class="btn" onclick="resetProgress()" style="background:#6b7280;color:#fff;width:100%">🔄 Сбросить весь прогресс</button>
     </div>
     
-    <!-- Модальное окно для заметок -->
     <div class="modal-overlay" id="noteModal" onclick="closeNoteModalOnOverlay(event)">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -164,7 +159,6 @@
         </div>
     </div>
 
-    <!-- Модальное окно для Импорта -->
     <div class="modal-overlay" id="importModal" onclick="closeImportModalOnOverlay(event)">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -183,6 +177,8 @@
     
     <script>
         const START_DATE = new Date('2026-09-01');
+        
+        // ОБНОВЛЁННОЕ РАСПИСАНИЕ: тренажёры разнесены для равномерной нагрузки
         const PLAN = [
             {week:1, day:'Вт', topic:'Знакомство + Стандарты обслуживания (12 этапов)', file:'Стандарты обслуживания.html', link:'Стандарты обслуживания.html'},
             {week:1, day:'Ср', topic:'Речевая пластинка с акциями', file:'Речевая пластинка.html', link:'Речевая пластинка.html'},
@@ -197,11 +193,11 @@
             {week:3, day:'Вт', topic:'Продажа золота (переориентация)', file:'Продажа золота.html', link:'Продажа золота.html'},
             {week:3, day:'Ср', topic:'Работа с «Дорого»', file:'Дорого.html', link:'Дорого.html'},
             {week:3, day:'Чт', topic:'Электронный каталог (5 ситуаций)', file:'Электронный каталог.html', link:'Электронный каталог.html'},
-            {week:3, day:'Пт', topic:'Альтернатива при отсутствии товара', file:'Альтернатива.html', link:'Альтернатива.html'},
-            {week:4, day:'Пн', topic:'Инициатива в диалоге', file:'Инициатива.html', link:'Инициатива.html'},
-            {week:4, day:'Вт', topic:'Тренажёр: Типы клиентов', file:'client_type_trainer.html', link:'https://wetalsfinx.github.io/Test/client_type_trainer.html'},
-            {week:4, day:'Ср', topic:'Тренажёр: Допродажи (cross-sell)', file:'crosssell_trainer.html', link:'https://wetalsfinx.github.io/Test/crosssell_trainer.html'},
-            {week:4, day:'Чт', topic:'10 инструментов увеличения продаж', file:'Увеличение продаж.html', link:'Увеличение продаж.html'},
+            {week:3, day:'Пт', topic:'Тренажёр: Типы клиентов', file:'client_type_trainer.html', link:'https://wetalsfinx.github.io/Test/client_type_trainer.html'},
+            {week:4, day:'Пн', topic:'Альтернатива при отсутствии товара', file:'Альтернатива.html', link:'Альтернатива.html'},
+            {week:4, day:'Вт', topic:'Тренажёр: Допродажи (cross-sell)', file:'crosssell_trainer.html', link:'https://wetalsfinx.github.io/Test/crosssell_trainer.html'},
+            {week:4, day:'Ср', topic:'10 инструментов увеличения продаж', file:'Увеличение продаж.html', link:'Увеличение продаж.html'},
+            {week:4, day:'Чт', topic:'Инициатива в диалоге', file:'Инициатива.html', link:'Инициатива.html'},
             {week:4, day:'Пт', topic:'Итоговая аттестация', file:'final_exam.html', link:'https://wetalsfinx.github.io/Test/final_exam.html'},
             {week:5, day:'Пн', topic:'Финишная прямая + Лайфхаки', file:'Финишная прямая.html', link:'Финишная прямая.html'}
         ];
@@ -231,18 +227,14 @@
             localStorage.setItem('dayNotes', JSON.stringify(dayNotes));
         }
 
-        // --- ФУНКЦИИ ЭКСПОРТА / ИМПОРТА ---
         function exportProgress() {
             const data = { completedDays, dayNotes };
             const jsonString = JSON.stringify(data);
-            // Используем encodeURIComponent для корректной работы с русскими символами в Base64
             const base64 = btoa(unescape(encodeURIComponent(jsonString)));
-            
             navigator.clipboard.writeText(base64).then(() => {
                 alert('✅ Код прогресса скопирован!\n\nТеперь отправьте его себе в Telegram (Избранное) или WhatsApp, откройте на другом устройстве, нажмите "Импорт" и вставьте этот код.');
             }).catch(() => {
-                // Запасной вариант, если браузер блокирует доступ к буферу обмена
-                prompt('Скопируйте этот код вручную (нажмите Ctrl+C или зажмите на телефоне):', base64);
+                prompt('Скопируйте этот код вручную:', base64);
             });
         }
 
@@ -255,11 +247,9 @@
         function processImport() {
             const base64 = document.getElementById('importTextarea').value.trim();
             if (!base64) { alert('⚠️ Вставьте код синхронизации!'); return; }
-            
             try {
                 const jsonString = decodeURIComponent(escape(atob(base64)));
                 const data = JSON.parse(jsonString);
-                
                 if (data.completedDays && data.dayNotes) {
                     completedDays = data.completedDays;
                     dayNotes = data.dayNotes;
@@ -271,22 +261,16 @@
                     alert('❌ Неверный формат кода.');
                 }
             } catch (e) {
-                alert('❌ Ошибка при чтении кода. Проверьте, что вы скопировали его полностью (от начала до конца).');
+                alert('❌ Ошибка при чтении кода. Проверьте, что вы скопировали его полностью.');
             }
         }
 
-        function closeImportModal() {
-            document.getElementById('importModal').classList.remove('active');
-        }
-        function closeImportModalOnOverlay(event) {
-            if (event.target.id === 'importModal') closeImportModal();
-        }
-        // ----------------------------------
+        function closeImportModal() { document.getElementById('importModal').classList.remove('active'); }
+        function closeImportModalOnOverlay(event) { if (event.target.id === 'importModal') closeImportModal(); }
         
         function render() {
             const today = new Date();
             const todayContainer = document.getElementById('todayContainer');
-            
             if (isWeekend(today)) {
                 const nextMonday = new Date(today);
                 const daysUntilMonday = (8 - today.getDay()) % 7 || 7;
@@ -306,7 +290,7 @@
                         <div class="today-week">Неделя ${currentPlan.week} • День ${currentDayIndex + 1} из ${PLAN.length}</div>
                         <div class="today-topic">${currentPlan.topic}</div>
                         <div class="today-file">📄 ${currentPlan.file}</div>
-                        <a href="${currentPlan.link}" target="_blank" class="btn btn-link" style="width:100%;margin-bottom:10px">📖 Открыть материал</a>
+                        <a href="${currentPlan.link}" target="_blank" class="btn btn-link" style="width:100%;margin-bottom:10px"> Открыть материал</a>
                         <div class="today-actions">
                             <button class="btn btn-success" id="markDone" onclick="markTodayDone()" ${isDone ? 'disabled' : ''}>${isDone ? '✅ Уже отправлено' : '✅ Отметить как отправлено'}</button>
                             <button class="btn btn-secondary" onclick="showNextDay()">Что дальше? →</button>
@@ -318,7 +302,6 @@
                         </div>
                     </div>`;
             }
-            
             const progress = (completedDays.length / PLAN.length) * 100;
             document.getElementById('progressFill').style.width = progress + '%';
             document.getElementById('progressPercent').textContent = `${completedDays.length}/${PLAN.length} дней`;
