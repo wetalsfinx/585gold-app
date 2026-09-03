@@ -19,7 +19,7 @@
         
         .today-hero{background:linear-gradient(135deg,#E30613,#c41c2a);border-radius:24px;padding:28px;margin-bottom:20px;box-shadow:0 12px 40px rgba(196,30,58,0.3);color:#fff}
         .today-label{font-size:11px;text-transform:uppercase;font-weight:700;opacity:0.9;margin-bottom:8px;letter-spacing:1px;background:rgba(255,255,255,0.2);display:inline-block;padding:6px 12px;border-radius:8px}
-        .today-date{font-size:18px;font-weight:700;margin:12px 0 4px}
+        .today-date{font-size:20px;font-weight:800;margin:12px 0 4px}
         .today-week{font-size:13px;opacity:0.9;margin-bottom:10px}
         .countdown{font-size:14px;font-weight:600;background:rgba(0,0,0,0.2);padding:8px 12px;border-radius:8px;display:inline-block;margin-bottom:12px}
         .today-topic{background:#fff;color:#333;padding:16px;border-radius:16px;font-size:16px;font-weight:700;margin-bottom:12px;line-height:1.4;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
@@ -58,7 +58,7 @@
         .schedule-item:last-child{border-bottom:none}
         .schedule-item.done{opacity:0.6}
         .schedule-item.today{background:#fff5f5;margin:0 -12px;padding:12px;border-radius:12px;border-left:4px solid #E30613}
-        .schedule-day{width:36px;height:36px;background:#E30613;color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-right:12px;flex-shrink:0}
+        .schedule-day{width:36px;height:36px;background:#E30613;color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-right:12px;flex-shrink:0;text-align:center;line-height:1.1}
         .schedule-day.done{background:#10b981}
         .schedule-day.today{background:#E30613;animation:pulse 2s infinite}
         .schedule-info{flex:1;min-width:0}
@@ -84,7 +84,7 @@
         .modal{background:#fff;border-radius:20px;width:100%;max-width:500px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:modalIn 0.3s ease;transition:background 0.3s}
         @keyframes modalIn{from{opacity:0;transform:scale(0.95) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
         .modal-header{padding:20px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:12px;transition:border-color 0.3s}
-        .modal-day-badge{width:40px;height:40px;background:#E30613;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+        .modal-day-badge{width:40px;height:40px;background:#E30613;color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;text-align:center;line-height:1.1}
         .modal-title{flex:1;min-width:0}
         .modal-title-week{font-size:11px;color:#666;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;transition:color 0.3s}
         .modal-title-topic{font-size:15px;font-weight:700;color:#333;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:color 0.3s}
@@ -182,7 +182,7 @@
     <div class="modal-overlay" id="noteModal" onclick="closeNoteModalOnOverlay(event)">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <div class="modal-day-badge" id="modalDayBadge">Пн</div>
+                <div class="modal-day-badge" id="modalDayBadge">Пн<br>01.09</div>
                 <div class="modal-title">
                     <div class="modal-title-week" id="modalWeek">Неделя 1</div>
                     <div class="modal-title-topic" id="modalTopic">Тема</div>
@@ -203,7 +203,7 @@
     <div class="modal-overlay" id="importModal" onclick="closeImportModalOnOverlay(event)">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <div class="modal-title"><div class="modal-title-topic"> Импорт прогресса</div></div>
+                <div class="modal-title"><div class="modal-title-topic">📥 Импорт прогресса</div></div>
                 <button class="modal-close" onclick="closeImportModal()">&times;</button>
             </div>
             <div class="modal-body">
@@ -234,20 +234,20 @@
             {week:1, day:'Пт', type:'theory', topic:'«Можно» vs «Давайте»', file:'Можно vs Давайте.html', link:'Можно vs Давайте.html'},
             {week:2, day:'Пн', type:'theory', topic:'Конверсия: 6 правил', file:'Конверсия.html', link:'Конверсия.html'},
             {week:2, day:'Вт', type:'theory', topic:'Путь к успешной продаже (5 шагов)', file:'Путь к успешной продаже.html', link:'Путь к успешной продаже.html'},
-            {week:2, day:'Ср', type:'trainer', topic:'Тренажёр: Диалоги', file:'dialog_trainer.html', link:'https://wetalsfinx.github.io/Test/dialog_trainer.html'},
+            {week:2, day:'Ср', type:'trainer', topic:'🎮 Тренажёр: Диалоги', file:'dialog_trainer.html', link:'https://wetalsfinx.github.io/Test/dialog_trainer.html'},
             {week:2, day:'Чт', type:'theory', topic:'Презентация украшений (ХПВ)', file:'Презентация.html', link:'Презентация.html'},
             {week:2, day:'Пт', type:'theory', topic:'Предложение 2-го украшения (10 ситуаций)', file:'Предложение второго украшения.html', link:'Предложение второго украшения.html'},
-            {week:3, day:'Пн', type:'trainer', topic:'Игра: Найди ошибку в диалоге', file:'error_finder.html', link:'https://wetalsfinx.github.io/Test/error_finder.html'},
+            {week:3, day:'Пн', type:'trainer', topic:'🎮 Игра: Найди ошибку в диалоге', file:'error_finder.html', link:'https://wetalsfinx.github.io/Test/error_finder.html'},
             {week:3, day:'Вт', type:'theory', topic:'Продажа золота (переориентация)', file:'Продажа золота.html', link:'Продажа золота.html'},
             {week:3, day:'Ср', type:'theory', topic:'Работа с «Дорого»', file:'Дорого.html', link:'Дорого.html'},
             {week:3, day:'Чт', type:'theory', topic:'Электронный каталог (5 ситуаций)', file:'Электронный каталог.html', link:'Электронный каталог.html'},
-            {week:3, day:'Пт', type:'trainer', topic:'Тренажёр: Типы клиентов', file:'client_type_trainer.html', link:'https://wetalsfinx.github.io/Test/client_type_trainer.html'},
+            {week:3, day:'Пт', type:'trainer', topic:'🎮 Тренажёр: Типы клиентов', file:'client_type_trainer.html', link:'https://wetalsfinx.github.io/Test/client_type_trainer.html'},
             {week:4, day:'Пн', type:'theory', topic:'Альтернатива при отсутствии товара', file:'Альтернатива.html', link:'Альтернатива.html'},
-            {week:4, day:'Вт', type:'trainer', topic:'Тренажёр: Допродажи (cross-sell)', file:'crosssell_trainer.html', link:'https://wetalsfinx.github.io/Test/crosssell_trainer.html'},
+            {week:4, day:'Вт', type:'trainer', topic:'🎮 Тренажёр: Допродажи (cross-sell)', file:'crosssell_trainer.html', link:'https://wetalsfinx.github.io/Test/crosssell_trainer.html'},
             {week:4, day:'Ср', type:'theory', topic:'10 инструментов увеличения продаж', file:'Увеличение продаж.html', link:'Увеличение продаж.html'},
             {week:4, day:'Чт', type:'theory', topic:'Инициатива в диалоге', file:'Инициатива.html', link:'Инициатива.html'},
-            {week:4, day:'Пт', type:'test', topic:'Итоговая аттестация', file:'final_exam.html', link:'https://wetalsfinx.github.io/Test/final_exam.html'},
-            {week:5, day:'Пн', type:'final', topic:'Финишная прямая + Лайфхаки', file:'Финишная прямая.html', link:'Финишная прямая.html'}
+            {week:4, day:'Пт', type:'test', topic:'🎓 Итоговая аттестация', file:'final_exam.html', link:'https://wetalsfinx.github.io/Test/final_exam.html'},
+            {week:5, day:'Пн', type:'final', topic:'🏆 Финишная прямая + Лайфхаки', file:'Финишная прямая.html', link:'Финишная прямая.html'}
         ];
         
         let completedDays = JSON.parse(localStorage.getItem('completedDays') || '[]');
@@ -255,15 +255,42 @@
         let currentModalIndex = null;
         let saveTimeout = null;
         
+        // ========== 🆕 ФУНКЦИИ ДЛЯ ВЫЧИСЛЕНИЯ ДАТ ==========
         function isWeekend(date) { const day = date.getDay(); return day === 0 || day === 6; }
+        
+        // Вычисляет дату для каждого дня в плане, пропуская выходные
+        function getDateForDayIndex(index) {
+            let currentDate = new Date(START_DATE);
+            let businessDayCount = 0;
+            
+            // Находим нужный рабочий день
+            while (businessDayCount < index) {
+                currentDate.setDate(currentDate.getDate() + 1);
+                if (!isWeekend(currentDate)) {
+                    businessDayCount++;
+                }
+            }
+            
+            return currentDate;
+        }
+        
+        // Форматирует дату в коротком виде "дд.мм"
+        function formatDateShort(date) {
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            return `${day}.${month}`;
+        }
+        
         function countBusinessDays(start, end) {
             let count = 0, current = new Date(start);
             while (current <= end) { if (!isWeekend(current)) count++; current.setDate(current.getDate() + 1); }
             return count;
         }
+        
         function formatDate(date) { return date.toLocaleDateString('ru-RU', {day:'numeric',month:'long'}); }
         function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
         function getNotePreview(idx) { const note = dayNotes[idx]; if (!note) return ''; return note.length > 60 ? note.substring(0, 60) + '...' : note; }
+        
         function getCurrentDayIndex() {
             const today = new Date();
             if (isWeekend(today)) return -1;
@@ -360,18 +387,20 @@
                 nextMonday.setDate(today.getDate() + daysUntilMonday);
                 const nextDayIndex = Math.min(countBusinessDays(START_DATE, nextMonday) - 1, PLAN.length - 1);
                 const nextPlan = PLAN[nextDayIndex];
-                todayContainer.innerHTML = `<div class="weekend-card"><h2>🎉 Выходной день!</h2><p>Отдыхайте! Следующая отправка в понедельник.</p><div class="weekend-note-hint">💡 <strong>Совет:</strong> можете заранее подготовить заметки к следующему материалу — <em>${escapeHtml(nextPlan.topic)}</em></div></div>`;
+                const nextDate = getDateForDayIndex(nextDayIndex);
+                todayContainer.innerHTML = `<div class="weekend-card"><h2>🎉 Выходной день!</h2><p>Отдыхайте! Следующая отправка ${nextPlan.day} • ${formatDateShort(nextDate)}.</p><div class="weekend-note-hint">💡 <strong>Совет:</strong> можете заранее подготовить заметки к следующему материалу — <em>${escapeHtml(nextPlan.topic)}</em></div></div>`;
             } else {
                 const currentDayIndex = getCurrentDayIndex();
                 const currentPlan = PLAN[currentDayIndex];
+                const currentDate = getDateForDayIndex(currentDayIndex);
                 const isDone = completedDays.includes(currentDayIndex);
                 const currentNote = dayNotes[currentDayIndex] || '';
                 todayContainer.innerHTML = `
                     <div class="today-hero">
                         <div class="today-label">📤 ОТПРАВИТЬ СЕГОДНЯ</div>
-                        <div class="today-date">${formatDate(today)}</div>
+                        <div class="today-date">${currentPlan.day} • ${formatDateShort(currentDate)}</div>
                         <div class="today-week">Неделя ${currentPlan.week} • День ${currentDayIndex + 1} из ${PLAN.length}</div>
-                        <div class="countdown" id="countdown"> Загрузка таймера...</div>
+                        <div class="countdown" id="countdown">⏳ Загрузка таймера...</div>
                         <div class="today-topic">${currentPlan.topic}</div>
                         <div class="today-file">📄 ${currentPlan.file}</div>
                         <a href="${currentPlan.link}" target="_blank" class="btn btn-link" style="width:100%;margin-bottom:10px">📖 Открыть материал</a>
@@ -408,9 +437,11 @@
                 const notePreview = hasNote ? escapeHtml(getNotePreview(idx)) : '';
                 const color = typeColors[item.type] || '#E30613';
                 const badgeStyle = (!isDone && !isToday) ? `background:${color}` : '';
+                const itemDate = getDateForDayIndex(idx);
+                const dateStr = formatDateShort(itemDate);
                 
                 return `<div class="schedule-item ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}" onclick="openNoteModal(${idx})">
-                    <div class="schedule-day ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}" style="${badgeStyle}">${item.day}</div>
+                    <div class="schedule-day ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}" style="${badgeStyle}">${item.day}<br>${dateStr}</div>
                     <div class="schedule-info">
                         <div class="schedule-week">Неделя ${item.week}</div>
                         <div class="schedule-topic">${item.topic}</div>
@@ -446,8 +477,9 @@
             const businessDayCount = countBusinessDays(START_DATE, today);
             const nextDayIndex = Math.min(businessDayCount, PLAN.length - 1);
             const nextPlan = PLAN[nextDayIndex];
+            const nextDate = getDateForDayIndex(nextDayIndex);
             if (nextDayIndex >= PLAN.length - 1 && completedDays.length >= PLAN.length - 1) { alert('🏆 Поздравляем! Вы прошли всё обучение!'); return; }
-            alert(`📅 ЗАВТРА:\n\n${nextPlan.topic}\n\n📄 Файл: ${nextPlan.file}\n\nНеделя ${nextPlan.week}`);
+            alert(`📅 ЗАВТРА:\n\n${nextPlan.day} • ${formatDateShort(nextDate)}\n\n${nextPlan.topic}\n\n📄 Файл: ${nextPlan.file}\n\nНеделя ${nextPlan.week}`);
         }
         
         function resetProgress() {
@@ -477,7 +509,9 @@
         function openNoteModal(idx) {
             currentModalIndex = idx;
             const plan = PLAN[idx];
-            document.getElementById('modalDayBadge').textContent = plan.day;
+            const itemDate = getDateForDayIndex(idx);
+            const dateStr = formatDateShort(itemDate);
+            document.getElementById('modalDayBadge').innerHTML = `${plan.day}<br>${dateStr}`;
             document.getElementById('modalWeek').textContent = `Неделя ${plan.week}`;
             document.getElementById('modalTopic').textContent = plan.topic;
             document.getElementById('modalTextarea').value = dayNotes[idx] || '';
@@ -561,7 +595,7 @@
         });
         
         render();
-        setInterval(updateCountdown, 60000); // Обновление таймера каждую минуту
+        setInterval(updateCountdown, 60000);
         if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js');
     </script>
 </body>
